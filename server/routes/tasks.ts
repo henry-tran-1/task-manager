@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import * as db from '../db/index'
-import { Task, TaskWithId } from '../../models/tasks'
+import { CompleteTask, Task, TaskWithId } from '../../models/tasks'
 
 const router = Router()
 
@@ -66,6 +66,20 @@ router.delete('/:id', async (req, res) => {
   } catch (error) {
     console.error('Error in DELETE /tasks/:id', error)
     res.status(500).json({ message: 'Unable to delete task by id' })
+  }
+})
+
+// complete task by id
+// PATCH /api/v1/tasks/:id
+router.patch('/:id', async (req, res) => {
+  const id = Number(req.params.id)
+  const taskStatus: CompleteTask = req.body
+  try {
+    await db.completeTaskById(id, taskStatus)
+    res.status(204).json({ message: 'Task status updated successfully' })
+  } catch (error) {
+    console.error('Error in PATCH /tasks/:id', error)
+    res.status(500).json({ message: 'Unable to complete task by id' })
   }
 })
 
