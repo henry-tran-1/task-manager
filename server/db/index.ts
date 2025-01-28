@@ -1,4 +1,4 @@
-import { Task, TaskWithId } from '../../models/tasks'
+import { Task, TaskWithId, UpdateTask } from '../../models/tasks'
 import connection from './connection.ts'
 
 // create new task
@@ -46,6 +46,20 @@ export async function getTask(
 }
 
 // update task by id
+export async function updateTaskById(
+  id: number,
+  task: Task,
+  db = connection,
+): Promise<void> {
+  await db('tasks').where('id', id).update({
+    title: task.title,
+    details: task.details,
+    priority: task.priority,
+    is_completed: task.isCompleted,
+    created_at: task.createdAt,
+    updated_at: task.updatedAt,
+  })
+}
 
 // delete task by id
 

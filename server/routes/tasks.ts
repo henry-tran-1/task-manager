@@ -42,4 +42,18 @@ router.get('/:id', async (req, res) => {
   }
 })
 
+// update task by id
+// PUT /api/v1/tasks/:id
+router.put('/:id', async (req, res) => {
+  const id = Number(req.params.id)
+  const task: Task = req.body
+  try {
+    await db.updateTaskById(id, task)
+    res.status(204).json({ message: 'Task updated successfully' })
+  } catch (error) {
+    console.error('Error in PUT /tasks', error)
+    res.status(500).json({ message: 'Unable to update task by id' })
+  }
+})
+
 export default router
