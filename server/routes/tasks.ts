@@ -15,4 +15,17 @@ router.get('/', async (req, res) => {
   }
 })
 
+// get task by id
+// GET /api/v1/tasks/:id
+router.get('/:id', async (req, res) => {
+  const id = Number(req.params.id)
+  try {
+    const task = await db.getTask(id)
+    res.status(200).json(task)
+  } catch (error) {
+    console.error('Error in GET /tasks/:id', error)
+    res.status(500).json({ message: 'Unable to retrieve task by id' })
+  }
+})
+
 export default router
