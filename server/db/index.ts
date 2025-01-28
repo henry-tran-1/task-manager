@@ -64,3 +64,9 @@ export async function updateTaskById(
 // delete task by id
 
 // complete task by id
+export async function deleteTaskById(
+  id: number,
+  db = connection,
+): Promise<void> {
+  await db('tasks').where('id', id).del()
+}

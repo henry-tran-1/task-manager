@@ -51,8 +51,21 @@ router.put('/:id', async (req, res) => {
     await db.updateTaskById(id, task)
     res.status(204).json({ message: 'Task updated successfully' })
   } catch (error) {
-    console.error('Error in PUT /tasks', error)
+    console.error('Error in PUT /tasks/:id', error)
     res.status(500).json({ message: 'Unable to update task by id' })
+  }
+})
+
+// delete task by id
+// DELETE /api/v1/tasks/:id
+router.delete('/:id', async (req, res) => {
+  const id = Number(req.params.id)
+  try {
+    await db.deleteTaskById(id)
+    res.status(204).json({ message: 'Task deleted successfully' })
+  } catch (error) {
+    console.error('Error in DELETE /tasks/:id', error)
+    res.status(500).json({ message: 'Unable to delete task by id' })
   }
 })
 
