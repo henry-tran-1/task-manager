@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import * as db from '../db/index'
-import { Task } from '../../models/tasks'
+import { Task, TaskWithId } from '../../models/tasks'
 
 const router = Router()
 
@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
 // GET /api/v1/tasks
 router.get('/', async (req, res) => {
   try {
-    const tasks = await db.getAllTasks()
+    const tasks: TaskWithId[] = await db.getAllTasks()
     res.status(200).json(tasks)
   } catch (error) {
     console.error('Error in GET /tasks', error)
@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const id = Number(req.params.id)
   try {
-    const task = await db.getTask(id)
+    const task: TaskWithId = await db.getTask(id)
     res.status(200).json(task)
   } catch (error) {
     console.error('Error in GET /tasks/:id', error)
