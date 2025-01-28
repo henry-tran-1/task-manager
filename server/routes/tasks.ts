@@ -1,7 +1,21 @@
 import { Router } from 'express'
 import * as db from '../db/index'
+import { Task } from '../../models/tasks'
 
 const router = Router()
+
+// add new task
+// POST /api/v1/tasks
+router.post('/', async (req, res) => {
+  const task: Task = req.body
+  try {
+    await db.createTask(task)
+    res.status(201).json({ message: 'Task added successfully' })
+  } catch (error) {
+    console.error('Error in POST /tasks', error)
+    res.status(500).json({ message: 'Unable to add new task' })
+  }
+})
 
 // get all tasks
 // GET /api/v1/tasks
