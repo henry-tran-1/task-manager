@@ -12,7 +12,7 @@ export default {
         bold: 700,
       },
       colors: {
-        titleBlue: '#26A6F2',
+        titleBlue: '#0078D4',
         backgroundWhite: '#FFFFFF',
         tabGray: '#F0F0F0',
         barGray: '#CDCDCD',
