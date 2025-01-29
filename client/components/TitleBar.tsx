@@ -1,7 +1,12 @@
 export default function TitleBar() {
   return (
-    <header className="bg-titleBlue h-[35px]">
-      <p>this will be the titlebar</p>
+    <header className="bg-titleBlue h-[32px] flex justify-between">
+      <section>
+        <p>left</p>
+      </section>
+      <section>
+        <p>right</p>
+      </section>
     </header>
   )
 }
