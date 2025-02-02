@@ -1,4 +1,4 @@
-import useGetAllTasks from '../hooks/useAllTasks'
+import useGetAllTasks from '../hooks/useGetAllTasks'
 
 interface Props {
   displayWindowState: boolean
