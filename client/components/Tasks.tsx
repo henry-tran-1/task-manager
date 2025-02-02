@@ -1,4 +1,12 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useGetAllTasks from '../hooks/useGetAllTasks'
+import {
+  faAngleRight,
+  faPenToSquare,
+  faSquareCheck,
+  faTrashCan,
+} from '@fortawesome/free-solid-svg-icons'
+import { faSquare } from '@fortawesome/free-regular-svg-icons'
 
 interface Props {
   displayWindowState: boolean
@@ -14,9 +22,50 @@ export default function Tasks({ displayWindowState }: Props) {
     <section
       className={`${displayWindowState ? 'block' : 'invisible'} w-full h-full bg-backgroundWhite`}
     >
-      <p>this will be the list of tasks component</p>
+      <p className="h-12">Priority Tabs Will Be Here</p>
+      <div>
+        {data?.map((task, index) => (
+          <div
+            key={task.id}
+            className={`flex flex-row justify-between ${index % 2 ? 'bg-tabGray' : 'bg-white'}`}
+          >
+            <div className="flex flex-row gap-2 ">
+              <button>
+                <FontAwesomeIcon icon={faAngleRight} className="opacity-50" />
+              </button>
+              <button>
+                {task.isCompleted ? (
+                  <FontAwesomeIcon
+                    icon={faSquareCheck}
+                    className="text-lg lg:text-2xl"
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faSquare}
+                    className="text-lg lg:text-2xl"
+                  />
+                )}
+              </button>
+              <h2>{task.title}</h2>
+            </div>
 
-      <div>{data?.map((task) => <div key={task.id}>{task.title}</div>)}</div>
+            <div className="flex flex-row gap-2">
+              <button>
+                <FontAwesomeIcon
+                  icon={faPenToSquare}
+                  className="text-lg lg:text-2xl"
+                />
+              </button>
+              <button>
+                <FontAwesomeIcon
+                  icon={faTrashCan}
+                  className="text-lg lg:text-2xl"
+                />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
   )
 }
