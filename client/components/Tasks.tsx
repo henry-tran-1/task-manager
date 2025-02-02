@@ -19,6 +19,8 @@ export default function Tasks({ displayWindowState }: Props) {
   const [displayDetails, setDisplayDetails] = useState<{
     [key: number]: boolean
   }>({})
+  // state to manage priority tabs
+  const [displayTasks, setDisplayTasks] = useState('all')
 
   // retrieve all tasks
   const { data, isPending, isError } = useGetAllTasks()
@@ -44,10 +46,26 @@ export default function Tasks({ displayWindowState }: Props) {
 
   return (
     <section
-      className={`${displayWindowState ? 'block' : 'invisible'} w-full h-full bg-backgroundWhite`}
+      className={`${displayWindowState ? 'block' : 'invisible'} w-full h-full bg-backgroundWhite pt-2`}
     >
-      <p className="h-12">Priority Tabs Will Be Here</p>
-      <div>
+      <div className="flex h-12">
+        <div className="inline-flex items-end">
+          <button className="h-12 px-6 bg-white border-t border-r border-borderGray">
+            All
+          </button>
+          <button className="h-10 px-6 border bg-tabGray border-borderGray mx-[-1px]">
+            High
+          </button>
+          <button className="h-10 px-6 border bg-tabGray border-borderGray mx-[-1px]">
+            Med
+          </button>
+          <button className="h-10 px-6 border bg-tabGray border-borderGray">
+            Low
+          </button>
+        </div>
+        <div className="w-full bg-white border-b border-borderGray"></div>
+      </div>
+      <div className="mt-2">
         {data?.map((task, index) => (
           <div
             key={task.id}
