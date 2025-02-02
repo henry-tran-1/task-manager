@@ -49,10 +49,11 @@ export default function Tasks({ displayWindowState }: Props) {
       <p className="h-12">Priority Tabs Will Be Here</p>
       <div>
         {data?.map((task, index) => (
-          <div key={task.id}>
-            <div
-              className={`flex flex-row justify-between ${index % 2 ? 'bg-tabGray' : 'bg-white'}`}
-            >
+          <div
+            key={task.id}
+            className={`${index % 2 ? 'bg-tabGray' : 'bg-white'}`}
+          >
+            <div className={`flex flex-row justify-between `}>
               <div className="flex flex-row gap-2 ml-2">
                 <button
                   onClick={() => toggleDisplayDetails(task.id)}
@@ -83,7 +84,9 @@ export default function Tasks({ displayWindowState }: Props) {
                     />
                   )}
                 </button>
-                <h2>{task.title}</h2>
+                <h2 className={`${task.isCompleted && 'line-through'}`}>
+                  {task.title}
+                </h2>
               </div>
 
               <div className="flex flex-row gap-2 mr-2">
