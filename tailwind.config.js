@@ -16,6 +16,7 @@ export default {
         backgroundWhite: '#FFFFFF',
         tabGray: '#F0F0F0',
         barGray: '#CDCDCD',
+        borderGray: '#B0B0B0',
         buttonGray: '#E1E1E1',
         backgroundYellow: '#FFF4C4',
         barYellow: '#F9ECA8',

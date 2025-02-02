@@ -18,7 +18,7 @@ export default function TitleBar({
   maxWindowState,
 }: Props) {
   return (
-    <header className="bg-titleBlue h-[32px] lg:h-[40px] flex justify-between">
+    <header className="bg-titleBlue h-[32px] lg:h-[40px] flex justify-between border-b border-borderGray">
       {/* left section of title bar */}
       <section className="flex items-center justify-start gap-1">
         <FontAwesomeIcon
