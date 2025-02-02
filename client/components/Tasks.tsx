@@ -9,6 +9,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { faSquare } from '@fortawesome/free-regular-svg-icons'
 import { useEffect, useState } from 'react'
+import { all } from 'superagent/lib/request-base'
+import { TaskWithId } from '../../models/tasks'
 
 interface Props {
   displayWindowState: boolean
@@ -20,7 +22,7 @@ export default function Tasks({ displayWindowState }: Props) {
     [key: number]: boolean
   }>({})
   // state to manage priority tabs
-  const [displayTasks, setDisplayTasks] = useState('all')
+  const [displayPriority, setDisplayPriority] = useState(0)
 
   // retrieve all tasks
   const { data, isPending, isError } = useGetAllTasks()
@@ -41,6 +43,21 @@ export default function Tasks({ displayWindowState }: Props) {
     setDisplayDetails((prev) => ({ ...prev, [taskId]: !prev[taskId] }))
   }
 
+  // handles onClick for displayPriority
+  const toggleDisplayPriority = (priority: number) => {
+    setDisplayPriority(() => priority)
+  }
+
+  // filters tasks based on priority
+  let filteredTasks: TaskWithId[] = []
+  if (data) {
+    if (displayPriority === 0) {
+      filteredTasks = data
+    } else {
+      filteredTasks = data.filter((tasks) => tasks.priority === displayPriority)
+    }
+  }
+
   if (isPending) return <p>Loading...</p>
   if (isError) return <p>Sorry, an error has occurred</p>
 
@@ -50,23 +67,35 @@ export default function Tasks({ displayWindowState }: Props) {
     >
       <div className="flex h-12">
         <div className="inline-flex items-end">
-          <button className="h-12 px-6 bg-white border-t border-r border-borderGray">
+          <button
+            className={`h-12 px-6 bg-white border-t border-r border-borderGray`}
+            onClick={() => toggleDisplayPriority(0)}
+          >
             All
           </button>
-          <button className="h-10 px-6 border bg-tabGray border-borderGray mx-[-1px]">
+          <button
+            className={`h-10 px-6 border bg-tabGray border-borderGray mx-[-1px]`}
+            onClick={() => toggleDisplayPriority(3)}
+          >
             High
           </button>
-          <button className="h-10 px-6 border bg-tabGray border-borderGray mx-[-1px]">
+          <button
+            className={`h-10 px-6 border bg-tabGray border-borderGray mx-[-1px]`}
+            onClick={() => toggleDisplayPriority(2)}
+          >
             Med
           </button>
-          <button className="h-10 px-6 border bg-tabGray border-borderGray">
+          <button
+            className={`h-10 px-6 border bg-tabGray border-borderGray`}
+            onClick={() => toggleDisplayPriority(1)}
+          >
             Low
           </button>
         </div>
         <div className="w-full bg-white border-b border-borderGray"></div>
       </div>
       <div className="mt-2">
-        {data?.map((task, index) => (
+        {filteredTasks.map((task, index) => (
           <div
             key={task.id}
             className={`${index % 2 ? 'bg-tabGray' : 'bg-white'}`}
