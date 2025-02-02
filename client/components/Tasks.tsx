@@ -68,25 +68,25 @@ export default function Tasks({ displayWindowState }: Props) {
       <div className="flex h-12">
         <div className="inline-flex items-end">
           <button
-            className={`${displayPriority === 0 ? 'bg-white h-12' : 'bg-tabGray h-10 border-b'} px-6 border-t border-r border-borderGray`}
+            className={`${displayPriority === 0 ? 'bg-white h-12' : 'bg-tabGray h-10 border-b'} transition-all duration-100 px-6 border-t border-r border-borderGray`}
             onClick={() => toggleDisplayPriority(0)}
           >
             All
           </button>
           <button
-            className={`${displayPriority === 3 ? 'bg-white h-12' : 'bg-tabGray h-10 border-b'} border-t border-x px-6 border-borderGray mx-[-1px]`}
+            className={`${displayPriority === 3 ? 'bg-white h-12' : 'bg-tabGray h-10 border-b'} transition-all duration-100 border-t border-x px-6 border-borderGray mx-[-1px]`}
             onClick={() => toggleDisplayPriority(3)}
           >
             High
           </button>
           <button
-            className={`${displayPriority === 2 ? 'bg-white h-12' : 'bg-tabGray h-10 border-b'} border-t border-x px-6  bg-tabGray border-borderGray mr-[-1px]`}
+            className={`${displayPriority === 2 ? 'bg-white h-12' : 'bg-tabGray h-10 border-b'} transition-all duration-100 border-t border-x px-6  bg-tabGray border-borderGray mr-[-1px]`}
             onClick={() => toggleDisplayPriority(2)}
           >
             Med
           </button>
           <button
-            className={`${displayPriority === 1 ? 'bg-white h-12' : 'bg-tabGray h-10 border-b'} border-t border-x px-6  bg-tabGray border-borderGray`}
+            className={`${displayPriority === 1 ? 'bg-white h-12' : 'bg-tabGray h-10 border-b'} transition-all duration-100 border-t border-x px-6  bg-tabGray border-borderGray`}
             onClick={() => toggleDisplayPriority(1)}
           >
             Low
