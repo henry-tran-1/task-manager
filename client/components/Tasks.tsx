@@ -69,7 +69,7 @@ export default function Tasks({ displayWindowState }: Props) {
 
   // handles onClick for complete task
   const handleCompleteTask = (id: number, isCompleted: boolean) => {
-    completeTask.mutate({ id, isCompleted: !isCompleted })
+    completeTask.mutate({ id, isCompleted: !isCompleted } as CompleteTask)
   }
 
   if (isPending) return <p>Loading...</p>
