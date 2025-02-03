@@ -70,7 +70,7 @@ export default function AddTask({ displayWindowState }: Props) {
         onSubmit={handleSubmit}
         className="flex items-center justify-around"
       >
-        <div className={`${displayFullform ? 'flex flex-col' : 'invisible'} `}>
+        <div className={`${displayFullform ? 'flex flex-col' : 'hidden'} `}>
           <label className="flex items-center cursor-pointer">
             <input
               onChange={handleChange}
@@ -109,7 +109,7 @@ export default function AddTask({ displayWindowState }: Props) {
           </label>
         </div>
 
-        <div className="flex flex-col w-3/5 m-2">
+        <div className="flex flex-col w-[60%] m-2">
           <input
             onChange={handleChange}
             onFocus={() => toggleDisplayFullform(true)}
@@ -134,7 +134,7 @@ export default function AddTask({ displayWindowState }: Props) {
 
         <button
           type="submit"
-          className={`${displayFullform ? 'flex' : 'invisible'}  text-lg`}
+          className={`${displayFullform ? 'flex' : 'hidden'}  text-lg`}
         >
           <FontAwesomeIcon icon={faCirclePlus} className="text-4xl" />
         </button>
