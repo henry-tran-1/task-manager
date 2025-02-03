@@ -80,9 +80,8 @@ export default function AddTask({ displayWindowState }: Props) {
               className="hidden peer"
               defaultChecked={formState.priority === 1}
             />
-            <span className="w-5 h-5 border-2 border-gray-400 peer-checked:bg-blue-500 peer-checked:border-blue-500">
-              low
-            </span>
+            <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black peer-checked:border-black"></span>
+            <span className="ml-1">low</span>
           </label>
           <label className="flex items-center cursor-pointer">
             <input
@@ -93,9 +92,8 @@ export default function AddTask({ displayWindowState }: Props) {
               className="hidden peer"
               defaultChecked={formState.priority === 2}
             />
-            <span className="w-5 h-5 border-2 border-gray-400 rounded-full peer-checked:bg-blue-500 peer-checked:border-blue-500">
-              med
-            </span>
+            <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black "></span>
+            <span className="ml-1">med</span>
           </label>
           <label className="flex items-center cursor-pointer">
             <input
@@ -106,9 +104,8 @@ export default function AddTask({ displayWindowState }: Props) {
               className="hidden peer"
               defaultChecked={formState.priority === 3}
             />
-            <span className="w-5 h-5 border-2 border-gray-400 rounded-full peer-checked:bg-blue-500 peer-checked:border-blue-500">
-              high
-            </span>
+            <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black peer-checked:border-black"></span>
+            <span className="ml-1">high</span>
           </label>
         </div>
 
@@ -121,7 +118,7 @@ export default function AddTask({ displayWindowState }: Props) {
             type="text"
             placeholder="Add new task"
             value={formState.title}
-            className="text-lg text-center border bg-tabGray border-borderGray "
+            className="text-base text-center border bg-tabGray border-borderGray "
           />
 
           <input
@@ -131,7 +128,7 @@ export default function AddTask({ displayWindowState }: Props) {
             type="text"
             placeholder="Add a short description"
             value={formState.details}
-            className={`${displayFullform ? 'flex' : 'hidden'} text-lg text-center bg-tabGray mt-2`}
+            className={`${displayFullform ? 'flex' : 'hidden'} text-base text-center bg-tabGray mt-2`}
           />
         </div>
 
