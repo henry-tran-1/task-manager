@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+
 import { useState } from 'react'
 import useCreateTask from '../hooks/useCreateTask'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -5,20 +8,25 @@ import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 
 interface Props {
   displayWindowState: boolean
+  displayFormState: boolean
+  onClickDisplayForm: (display: boolean) => void
 }
 
-export default function AddTask({ displayWindowState }: Props) {
+export default function AddTask({
+  displayWindowState,
+  displayFormState,
+  onClickDisplayForm,
+}: Props) {
   // state to handle form input
-  const [formState, setFormState] = useState({
+  const defaultForm = {
     title: '',
     details: '',
     priority: 2,
     isCompleted: false,
     createdAt: 0,
     updatedAt: 0,
-  })
-  // state to handle details and priority appearing
-  const [displayFullform, setDisplayFullform] = useState(false)
+  }
+  const [formState, setFormState] = useState(defaultForm)
 
   // mutation hook to add task
   const addTask = useCreateTask()
@@ -27,6 +35,7 @@ export default function AddTask({ displayWindowState }: Props) {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     addTask.mutate(formState)
+    setFormState(() => defaultForm)
   }
   // handles form changes
   const handleChange = (
@@ -35,37 +44,89 @@ export default function AddTask({ displayWindowState }: Props) {
       | React.ChangeEvent<HTMLSelectElement>,
   ) => {
     const { name, value } = event.target
-    setFormState((prev) => ({
-      ...prev,
-      [name]: value,
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-    }))
-  }
 
-  // toggles displaying full form
-  const toggleDisplayFullform = (inFocus: boolean) => {
-    setDisplayFullform(() => inFocus)
+    // for priority, change string to number
+    if (name === 'priority') {
+      const valueNum = Number(value)
+      setFormState((prev) => ({
+        ...prev,
+        [name]: valueNum,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      }))
+    } else {
+      setFormState((prev) => ({
+        ...prev,
+        [name]: value,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      }))
+    }
   }
 
   return (
     <section
-      className={`${displayWindowState ? 'block' : 'invisible'} bg-barGray  border-b border-borderGray`}
+      onClick={(e) => e.stopPropagation()}
+      className={`${displayWindowState ? 'block' : 'hidden'} bg-barGray  border-b border-borderGray`}
     >
-      <form onSubmit={handleSubmit} className="flex justify-around">
-        <button type="submit" className={` text-lg`}>
-          <FontAwesomeIcon icon={faCirclePlus} className="text-4xl" />
-        </button>
-        <div className="flex flex-col w-3/5 m-2">
+      <form
+        onSubmit={handleSubmit}
+        className="flex items-center justify-around p-1"
+      >
+        <div
+          className={`${displayFormState ? 'flex lg:-mr-8' : 'invisible -my-16 lg:-mr-3'} `}
+        >
+          <p className={`-mr-8 -rotate-90`}>Priority</p>
+          <div className="flex flex-col">
+            <label className="flex items-center cursor-pointer">
+              <input
+                onChange={handleChange}
+                type="radio"
+                name="priority"
+                value="1"
+                className="hidden peer"
+                defaultChecked={formState.priority === 1}
+              />
+              <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black peer-checked:border-black"></span>
+              <span className="ml-1">low</span>
+            </label>
+            <label className="flex items-center cursor-pointer">
+              <input
+                onChange={handleChange}
+                type="radio"
+                name="priority"
+                value="2"
+                className="hidden peer"
+                defaultChecked={formState.priority === 2}
+              />
+              <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black "></span>
+              <span className="ml-1">med</span>
+            </label>
+            <label className="flex items-center cursor-pointer">
+              <input
+                onChange={handleChange}
+                type="radio"
+                name="priority"
+                value="3"
+                className="hidden peer"
+                defaultChecked={formState.priority === 3}
+              />
+              <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black peer-checked:border-black"></span>
+              <span className="ml-1">high</span>
+            </label>
+          </div>
+        </div>
+
+        <div className="flex flex-col w-[60%] m-2">
           <input
             onChange={handleChange}
-            onFocus={() => toggleDisplayFullform(true)}
+            onFocus={() => onClickDisplayForm(true)}
             name="title"
             id="title"
             type="text"
             placeholder="Add new task"
             value={formState.title}
-            className="text-lg text-center border bg-tabGray border-borderGray "
+            className="text-base text-center border bg-tabGray border-borderGray "
           />
 
           <input
@@ -75,21 +136,16 @@ export default function AddTask({ displayWindowState }: Props) {
             type="text"
             placeholder="Add a short description"
             value={formState.details}
-            className={`${displayFullform ? 'flex' : 'hidden'} text-lg text-center bg-tabGray`}
+            className={`${displayFormState ? 'flex' : 'hidden'} text-base text-center bg-tabGray mt-2`}
           />
         </div>
-        <div>
-          <select
-            onChange={handleChange}
-            name="priority"
-            id="priority"
-            className={`${displayFullform ? 'flex' : `hidden`} text-lg bg-tabGray`}
-          >
-            <option>Low</option>
-            <option>Med</option>
-            <option>High</option>
-          </select>
-        </div>
+
+        <button
+          type="submit"
+          className={`${displayFormState ? 'flex' : 'invisible -my-16'}  text-lg`}
+        >
+          <FontAwesomeIcon icon={faCirclePlus} className="text-4xl" />
+        </button>
       </form>
     </section>
   )
