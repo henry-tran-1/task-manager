@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+
 import { useState } from 'react'
 import useCreateTask from '../hooks/useCreateTask'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -63,49 +66,55 @@ export default function AddTask({
 
   return (
     <section
-      className={`${displayWindowState ? 'block' : 'invisible'} bg-barGray  border-b border-borderGray`}
+      onClick={(e) => e.stopPropagation()}
+      className={`${displayWindowState ? 'block' : 'hidden'} bg-barGray  border-b border-borderGray`}
     >
       <form
         onSubmit={handleSubmit}
-        className="flex items-center justify-around"
+        className="flex items-center justify-around p-1"
       >
-        <div className={`${displayFormState ? 'flex flex-col' : 'hidden'} `}>
-          <label className="flex items-center cursor-pointer">
-            <input
-              onChange={handleChange}
-              type="radio"
-              name="priority"
-              value="1"
-              className="hidden peer"
-              defaultChecked={formState.priority === 1}
-            />
-            <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black peer-checked:border-black"></span>
-            <span className="ml-1">low</span>
-          </label>
-          <label className="flex items-center cursor-pointer">
-            <input
-              onChange={handleChange}
-              type="radio"
-              name="priority"
-              value="2"
-              className="hidden peer"
-              defaultChecked={formState.priority === 2}
-            />
-            <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black "></span>
-            <span className="ml-1">med</span>
-          </label>
-          <label className="flex items-center cursor-pointer">
-            <input
-              onChange={handleChange}
-              type="radio"
-              name="priority"
-              value="3"
-              className="hidden peer"
-              defaultChecked={formState.priority === 3}
-            />
-            <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black peer-checked:border-black"></span>
-            <span className="ml-1">high</span>
-          </label>
+        <div
+          className={`${displayFormState ? 'flex lg:-mr-8' : 'invisible -my-16 lg:-mr-3'} `}
+        >
+          <p className={`-mr-8 -rotate-90`}>Priority</p>
+          <div className="flex flex-col">
+            <label className="flex items-center cursor-pointer">
+              <input
+                onChange={handleChange}
+                type="radio"
+                name="priority"
+                value="1"
+                className="hidden peer"
+                defaultChecked={formState.priority === 1}
+              />
+              <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black peer-checked:border-black"></span>
+              <span className="ml-1">low</span>
+            </label>
+            <label className="flex items-center cursor-pointer">
+              <input
+                onChange={handleChange}
+                type="radio"
+                name="priority"
+                value="2"
+                className="hidden peer"
+                defaultChecked={formState.priority === 2}
+              />
+              <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black "></span>
+              <span className="ml-1">med</span>
+            </label>
+            <label className="flex items-center cursor-pointer">
+              <input
+                onChange={handleChange}
+                type="radio"
+                name="priority"
+                value="3"
+                className="hidden peer"
+                defaultChecked={formState.priority === 3}
+              />
+              <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black peer-checked:border-black"></span>
+              <span className="ml-1">high</span>
+            </label>
+          </div>
         </div>
 
         <div className="flex flex-col w-[60%] m-2">
@@ -133,7 +142,7 @@ export default function AddTask({
 
         <button
           type="submit"
-          className={`${displayFormState ? 'flex' : 'hidden'}  text-lg`}
+          className={`${displayFormState ? 'flex' : 'invisible -my-16'}  text-lg`}
         >
           <FontAwesomeIcon icon={faCirclePlus} className="text-4xl" />
         </button>
