@@ -29,5 +29,6 @@ export interface DeleteTask {
 
 // completing or uncompleting a task by id
 export interface CompleteTask {
+  id: number
   isCompleted: boolean
 }
