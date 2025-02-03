@@ -5,9 +5,15 @@ import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 
 interface Props {
   displayWindowState: boolean
+  displayFormState: boolean
+  onClickDisplayForm: (display: boolean) => void
 }
 
-export default function AddTask({ displayWindowState }: Props) {
+export default function AddTask({
+  displayWindowState,
+  displayFormState,
+  onClickDisplayForm,
+}: Props) {
   // state to handle form input
   const defaultForm = {
     title: '',
@@ -18,8 +24,6 @@ export default function AddTask({ displayWindowState }: Props) {
     updatedAt: 0,
   }
   const [formState, setFormState] = useState(defaultForm)
-  // state to handle details and priority appearing
-  const [displayFullform, setDisplayFullform] = useState(false)
 
   // mutation hook to add task
   const addTask = useCreateTask()
@@ -57,11 +61,6 @@ export default function AddTask({ displayWindowState }: Props) {
     }
   }
 
-  // toggles displaying full form
-  const toggleDisplayFullform = (inFocus: boolean) => {
-    setDisplayFullform(() => inFocus)
-  }
-
   return (
     <section
       className={`${displayWindowState ? 'block' : 'invisible'} bg-barGray  border-b border-borderGray`}
@@ -70,7 +69,7 @@ export default function AddTask({ displayWindowState }: Props) {
         onSubmit={handleSubmit}
         className="flex items-center justify-around"
       >
-        <div className={`${displayFullform ? 'flex flex-col' : 'hidden'} `}>
+        <div className={`${displayFormState ? 'flex flex-col' : 'hidden'} `}>
           <label className="flex items-center cursor-pointer">
             <input
               onChange={handleChange}
@@ -112,7 +111,7 @@ export default function AddTask({ displayWindowState }: Props) {
         <div className="flex flex-col w-[60%] m-2">
           <input
             onChange={handleChange}
-            onFocus={() => toggleDisplayFullform(true)}
+            onFocus={() => onClickDisplayForm(true)}
             name="title"
             id="title"
             type="text"
@@ -128,13 +127,13 @@ export default function AddTask({ displayWindowState }: Props) {
             type="text"
             placeholder="Add a short description"
             value={formState.details}
-            className={`${displayFullform ? 'flex' : 'hidden'} text-base text-center bg-tabGray mt-2`}
+            className={`${displayFormState ? 'flex' : 'hidden'} text-base text-center bg-tabGray mt-2`}
           />
         </div>
 
         <button
           type="submit"
-          className={`${displayFullform ? 'flex' : 'hidden'}  text-lg`}
+          className={`${displayFormState ? 'flex' : 'hidden'}  text-lg`}
         >
           <FontAwesomeIcon icon={faCirclePlus} className="text-4xl" />
         </button>
