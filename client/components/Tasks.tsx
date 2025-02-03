@@ -9,8 +9,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { faSquare } from '@fortawesome/free-regular-svg-icons'
 import { useEffect, useState } from 'react'
-import { all } from 'superagent/lib/request-base'
-import { TaskWithId } from '../../models/tasks'
+import { CompleteTask, TaskWithId } from '../../models/tasks'
+import useDeleteTaskById from '../hooks/useDeleteTaskById'
+import useCompleteTaskById from '../hooks/useCompleteTaskById'
 
 interface Props {
   displayWindowState: boolean
@@ -24,8 +25,11 @@ export default function Tasks({ displayWindowState }: Props) {
   // state to manage priority tabs
   const [displayPriority, setDisplayPriority] = useState(0)
 
-  // retrieve all tasks
+  // hook to retrieve data
   const { data, isPending, isError } = useGetAllTasks()
+  // mutation hooks for tasks
+  const deleteTask = useDeleteTaskById()
+  const completeTask = useCompleteTaskById()
 
   // initialise displayDetails state when tasks are retrieved
   useEffect(() => {
@@ -56,6 +60,16 @@ export default function Tasks({ displayWindowState }: Props) {
     } else {
       filteredTasks = data.filter((tasks) => tasks.priority === displayPriority)
     }
+  }
+
+  // handles onClick for delete task
+  const handleDeleteTask = (id: number) => {
+    deleteTask.mutate(id)
+  }
+
+  // handles onClick for complete task
+  const handleCompleteTask = (id: number, isCompleted: boolean) => {
+    completeTask.mutate({ id, isCompleted: !isCompleted } as CompleteTask)
   }
 
   if (isPending) return <p>Loading...</p>
@@ -118,7 +132,9 @@ export default function Tasks({ displayWindowState }: Props) {
                     />
                   )}
                 </button>
-                <button>
+                <button
+                  onClick={() => handleCompleteTask(task.id, task.isCompleted)}
+                >
                   {task.isCompleted ? (
                     <FontAwesomeIcon
                       icon={faSquareCheck}
@@ -143,7 +159,7 @@ export default function Tasks({ displayWindowState }: Props) {
                     className="text-lg lg:text-2xl"
                   />
                 </button>
-                <button>
+                <button onClick={() => handleDeleteTask(task.id)}>
                   <FontAwesomeIcon
                     icon={faTrashCan}
                     className="text-lg lg:text-2xl"
