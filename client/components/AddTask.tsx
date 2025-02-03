@@ -9,14 +9,15 @@ interface Props {
 
 export default function AddTask({ displayWindowState }: Props) {
   // state to handle form input
-  const [formState, setFormState] = useState({
+  const defaultForm = {
     title: '',
     details: '',
     priority: 2,
     isCompleted: false,
     createdAt: 0,
     updatedAt: 0,
-  })
+  }
+  const [formState, setFormState] = useState(defaultForm)
   // state to handle details and priority appearing
   const [displayFullform, setDisplayFullform] = useState(false)
 
@@ -27,6 +28,7 @@ export default function AddTask({ displayWindowState }: Props) {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     addTask.mutate(formState)
+    setFormState(() => defaultForm)
   }
   // handles form changes
   const handleChange = (
@@ -35,12 +37,24 @@ export default function AddTask({ displayWindowState }: Props) {
       | React.ChangeEvent<HTMLSelectElement>,
   ) => {
     const { name, value } = event.target
-    setFormState((prev) => ({
-      ...prev,
-      [name]: value,
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-    }))
+
+    // for priority, change string to number
+    if (name === 'priority') {
+      const valueNum = Number(value)
+      setFormState((prev) => ({
+        ...prev,
+        [name]: valueNum,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      }))
+    } else {
+      setFormState((prev) => ({
+        ...prev,
+        [name]: value,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      }))
+    }
   }
 
   // toggles displaying full form
@@ -52,10 +66,52 @@ export default function AddTask({ displayWindowState }: Props) {
     <section
       className={`${displayWindowState ? 'block' : 'invisible'} bg-barGray  border-b border-borderGray`}
     >
-      <form onSubmit={handleSubmit} className="flex justify-around">
-        <button type="submit" className={` text-lg`}>
-          <FontAwesomeIcon icon={faCirclePlus} className="text-4xl" />
-        </button>
+      <form
+        onSubmit={handleSubmit}
+        className="flex items-center justify-around"
+      >
+        <div className={`${displayFullform ? 'flex flex-col' : 'invisible'} `}>
+          <label className="flex items-center cursor-pointer">
+            <input
+              onChange={handleChange}
+              type="radio"
+              name="priority"
+              value="1"
+              className="hidden peer"
+              defaultChecked={formState.priority === 1}
+            />
+            <span className="w-5 h-5 border-2 border-gray-400 peer-checked:bg-blue-500 peer-checked:border-blue-500">
+              low
+            </span>
+          </label>
+          <label className="flex items-center cursor-pointer">
+            <input
+              onChange={handleChange}
+              type="radio"
+              name="priority"
+              value="2"
+              className="hidden peer"
+              defaultChecked={formState.priority === 2}
+            />
+            <span className="w-5 h-5 border-2 border-gray-400 rounded-full peer-checked:bg-blue-500 peer-checked:border-blue-500">
+              med
+            </span>
+          </label>
+          <label className="flex items-center cursor-pointer">
+            <input
+              onChange={handleChange}
+              type="radio"
+              name="priority"
+              value="3"
+              className="hidden peer"
+              defaultChecked={formState.priority === 3}
+            />
+            <span className="w-5 h-5 border-2 border-gray-400 rounded-full peer-checked:bg-blue-500 peer-checked:border-blue-500">
+              high
+            </span>
+          </label>
+        </div>
+
         <div className="flex flex-col w-3/5 m-2">
           <input
             onChange={handleChange}
@@ -75,21 +131,16 @@ export default function AddTask({ displayWindowState }: Props) {
             type="text"
             placeholder="Add a short description"
             value={formState.details}
-            className={`${displayFullform ? 'flex' : 'hidden'} text-lg text-center bg-tabGray`}
+            className={`${displayFullform ? 'flex' : 'hidden'} text-lg text-center bg-tabGray mt-2`}
           />
         </div>
-        <div>
-          <select
-            onChange={handleChange}
-            name="priority"
-            id="priority"
-            className={`${displayFullform ? 'flex' : `hidden`} text-lg bg-tabGray`}
-          >
-            <option>Low</option>
-            <option>Med</option>
-            <option>High</option>
-          </select>
-        </div>
+
+        <button
+          type="submit"
+          className={`${displayFullform ? 'flex' : 'invisible'}  text-lg`}
+        >
+          <FontAwesomeIcon icon={faCirclePlus} className="text-4xl" />
+        </button>
       </form>
     </section>
   )
