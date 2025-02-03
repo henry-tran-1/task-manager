@@ -25,8 +25,9 @@ export default function Tasks({ displayWindowState }: Props) {
   // state to manage priority tabs
   const [displayPriority, setDisplayPriority] = useState(0)
 
-  // hooks
+  // hook to retrieve data
   const { data, isPending, isError } = useGetAllTasks()
+  // mutation hooks for tasks
   const deleteTask = useDeleteTaskById()
   const completeTask = useCompleteTaskById()
 
