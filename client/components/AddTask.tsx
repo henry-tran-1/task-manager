@@ -76,7 +76,10 @@ export default function AddTask({
         {/* left section */}
         <section className={`lg:w-36 flex justify-center`}>
           <div className={`${displayFormState ? 'flex' : 'hidden'} `}>
-            <p className={`-mr-8 -rotate-90`}>Priority</p>
+            <div className="flex items-center ">
+              <p className={`-rotate-90 text-base`}>Priority</p>
+            </div>
+
             <div className="flex flex-col">
               <label className="flex items-center cursor-pointer">
                 <input
