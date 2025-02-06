@@ -40,7 +40,21 @@ export default function UpdateTaskForm({
       | React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     const { name, value } = event.target
-    setFormState((prev) => ({ ...prev, [name]: value, updatedAt: Date.now() }))
+
+    if (name === 'priority') {
+      const valueNum = Number(value)
+      setFormState((prev) => ({
+        ...prev,
+        [name]: valueNum,
+        updatedAt: Date.now(),
+      }))
+    } else {
+      setFormState((prev) => ({
+        ...prev,
+        [name]: value,
+        updatedAt: Date.now(),
+      }))
+    }
   }
 
   return (
