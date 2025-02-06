@@ -129,6 +129,7 @@ export default function Tasks({ displayWindowState }: Props) {
             {updateTask[task.id] ? (
               <UpdateTaskForm
                 task={task}
+                index={index}
                 deleteTask={handleDeleteTask}
                 updateTask={toggleUpdateTask}
                 completeTask={handleCompleteTask}
@@ -170,7 +171,9 @@ export default function Tasks({ displayWindowState }: Props) {
                         />
                       )}
                     </button>
-                    <h2 className={`${task.isCompleted && 'line-through'}`}>
+                    <h2
+                      className={`${task.isCompleted && 'line-through'} px-1`}
+                    >
                       {task.title}
                     </h2>
                   </div>

@@ -8,9 +8,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { faSquare } from '@fortawesome/free-regular-svg-icons'
 import useUpdateTaskById from '../hooks/useUpdateTaskById'
+import { useState } from 'react'
 
 interface Props {
   task: TaskWithId
+  index: number
   deleteTask: (id: number) => void
   updateTask: (id: number) => void
   completeTask: (id: number, isCompleted: boolean) => void
@@ -18,6 +20,7 @@ interface Props {
 
 export default function UpdateTaskForm({
   task,
+  index,
   deleteTask,
   updateTask,
   completeTask,
@@ -25,12 +28,24 @@ export default function UpdateTaskForm({
   // mutation hook to edit task
   const editTask = useUpdateTaskById()
 
+  // state to handle form input
+  const [formState, setFormState] = useState(task)
+
   // handles form submit
+  const handleSubmit = () => {}
   // handles form changes
+  const handleChange = (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = event.target
+    setFormState((prev) => ({ ...prev, [name]: value, updatedAt: Date.now() }))
+  }
 
   return (
     <section>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className={`flex flex-row justify-between `}>
           <div className="flex flex-row gap-2 ml-2">
             <button className="w-5 h-5">
@@ -52,9 +67,16 @@ export default function UpdateTaskForm({
                 />
               )}
             </button>
-            <h2 className={`${task.isCompleted && 'line-through'}`}>
-              {task.title}
-            </h2>
+            <div className="lg:w-[650px] w-[250px]">
+              <input
+                onChange={handleChange}
+                name="title"
+                id="title"
+                type="text"
+                value={formState.title}
+                className={`${index % 2 ? 'bg-tabGray' : 'bg-white'} w-full  px-1 `}
+              />
+            </div>
           </div>
 
           <div className="flex flex-row gap-2 mr-2">
@@ -73,7 +95,13 @@ export default function UpdateTaskForm({
           </div>
         </div>
         <div>
-          <h2 className="ml-[60px] lg:ml-16 opacity-50">{task.details}</h2>
+          <input
+            onChange={handleChange}
+            name="details"
+            id="details"
+            value={formState.details}
+            className={`${index % 2 ? 'bg-tabGray' : 'bg-white'} ml-[60px] lg:ml-16 opacity-50  lg:w-[650px] w-[250px] px-1 `}
+          />
         </div>
         <div className="flex justify-between">
           <div>
