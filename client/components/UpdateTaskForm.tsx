@@ -104,10 +104,50 @@ export default function UpdateTaskForm({
           />
         </div>
         <div className="flex justify-between">
-          <div>
-            <p>Bunch of priority buttons</p>
+          <div className="flex gap-2 ml-[65px] my-1">
+            <label className="flex items-center cursor-pointer">
+              <input
+                onChange={handleChange}
+                type="radio"
+                name="priority"
+                value="1"
+                className="hidden peer"
+                defaultChecked={formState.priority === 1}
+              />
+              <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black peer-checked:border-black"></span>
+              <span className="ml-1">low</span>
+            </label>
+            <label className="flex items-center cursor-pointer">
+              <input
+                onChange={handleChange}
+                type="radio"
+                name="priority"
+                value="2"
+                className="hidden peer"
+                defaultChecked={formState.priority === 2}
+              />
+              <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black "></span>
+              <span className="ml-1">med</span>
+            </label>
+            <label className="flex items-center cursor-pointer">
+              <input
+                onChange={handleChange}
+                type="radio"
+                name="priority"
+                value="3"
+                className="hidden peer"
+                defaultChecked={formState.priority === 3}
+              />
+              <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black peer-checked:border-black"></span>
+              <span className="ml-1">high</span>
+            </label>
           </div>
-          <button>Update Task</button>
+          <button
+            type="submit"
+            className="px-1 bg-black rounded-md text-tabGray translate-y-[-15px]"
+          >
+            Update
+          </button>
         </div>
       </form>
     </section>
