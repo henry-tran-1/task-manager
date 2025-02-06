@@ -195,7 +195,7 @@ export default function Tasks({ displayWindowState }: Props) {
                 </div>
                 <div>
                   {displayDetails[task.id] && (
-                    <h2 className="ml-[60px] lg:ml-16 opacity-50">
+                    <h2 className="ml-[60px] lg:ml-[69px] opacity-50">
                       {task.details}
                     </h2>
                   )}
