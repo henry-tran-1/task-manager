@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react'
 import { CompleteTask, TaskWithId } from '../../models/tasks'
 import useDeleteTaskById from '../hooks/useDeleteTaskById'
 import useCompleteTaskById from '../hooks/useCompleteTaskById'
+import UpdateTaskForm from './UpdateTaskForm'
 
 interface Props {
   displayWindowState: boolean
@@ -22,6 +23,8 @@ export default function Tasks({ displayWindowState }: Props) {
   const [displayDetails, setDisplayDetails] = useState<{
     [key: number]: boolean
   }>({})
+  // state to manage edit tasks
+  const [updateTask, setUpdateTask] = useState<{ [key: number]: boolean }>({})
   // state to manage priority tabs
   const [displayPriority, setDisplayPriority] = useState(0)
 
@@ -31,20 +34,28 @@ export default function Tasks({ displayWindowState }: Props) {
   const deleteTask = useDeleteTaskById()
   const completeTask = useCompleteTaskById()
 
-  // initialise displayDetails state when tasks are retrieved
+  // initialise displayDetails and editTask state when tasks are retrieved
   useEffect(() => {
     if (data) {
       const initDetailsState: { [key: number]: boolean } = {}
+      const initEditTask: { [key: number]: boolean } = {}
       data.forEach((item) => {
         initDetailsState[item.id] = false
+        initEditTask[item.id] = false
       })
       setDisplayDetails(initDetailsState)
+      setUpdateTask(initEditTask)
     }
   }, [data])
 
   // handles onClick for displayDetails
   const toggleDisplayDetails = (taskId: number) => {
     setDisplayDetails((prev) => ({ ...prev, [taskId]: !prev[taskId] }))
+  }
+
+  // handles onClick for edit task
+  const toggleUpdateTask = (taskId: number) => {
+    setUpdateTask((prev) => ({ ...prev, [taskId]: !prev[taskId] }))
   }
 
   // handles onClick for displayPriority
@@ -108,67 +119,85 @@ export default function Tasks({ displayWindowState }: Props) {
         </div>
         <div className="w-full bg-white border-b border-borderGray"></div>
       </div>
+
       <div className="mt-2">
         {filteredTasks.map((task, index) => (
           <div
             key={task.id}
             className={`${index % 2 ? 'bg-tabGray' : 'bg-white'}`}
           >
-            <div className={`flex flex-row justify-between `}>
-              <div className="flex flex-row gap-2 ml-2">
-                <button
-                  onClick={() => toggleDisplayDetails(task.id)}
-                  className="w-5 h-5"
-                >
-                  {displayDetails[task.id] ? (
-                    <FontAwesomeIcon
-                      icon={faAngleDown}
-                      className="text-lg opacity-50"
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faAngleRight}
-                      className="text-lg opacity-50"
-                    />
-                  )}
-                </button>
-                <button
-                  onClick={() => handleCompleteTask(task.id, task.isCompleted)}
-                >
-                  {task.isCompleted ? (
-                    <FontAwesomeIcon
-                      icon={faSquareCheck}
-                      className="text-lg lg:text-2xl"
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faSquare}
-                      className="text-lg lg:text-2xl"
-                    />
-                  )}
-                </button>
-                <h2 className={`${task.isCompleted && 'line-through'}`}>
-                  {task.title}
-                </h2>
-              </div>
+            {updateTask[task.id] ? (
+              <UpdateTaskForm
+                task={task}
+                deleteTask={handleDeleteTask}
+                updateTask={toggleUpdateTask}
+                completeTask={handleCompleteTask}
+              />
+            ) : (
+              <div>
+                <div className={`flex flex-row justify-between `}>
+                  <div className="flex flex-row gap-2 ml-2">
+                    <button
+                      onClick={() => toggleDisplayDetails(task.id)}
+                      className="w-5 h-5"
+                    >
+                      {displayDetails[task.id] ? (
+                        <FontAwesomeIcon
+                          icon={faAngleDown}
+                          className="text-lg opacity-50"
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faAngleRight}
+                          className="text-lg opacity-50"
+                        />
+                      )}
+                    </button>
+                    <button
+                      onClick={() =>
+                        handleCompleteTask(task.id, task.isCompleted)
+                      }
+                    >
+                      {task.isCompleted ? (
+                        <FontAwesomeIcon
+                          icon={faSquareCheck}
+                          className="text-lg lg:text-2xl"
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faSquare}
+                          className="text-lg lg:text-2xl"
+                        />
+                      )}
+                    </button>
+                    <h2 className={`${task.isCompleted && 'line-through'}`}>
+                      {task.title}
+                    </h2>
+                  </div>
 
-              <div className="flex flex-row gap-2 mr-2">
-                <button>
-                  <FontAwesomeIcon
-                    icon={faPenToSquare}
-                    className="text-lg lg:text-2xl"
-                  />
-                </button>
-                <button onClick={() => handleDeleteTask(task.id)}>
-                  <FontAwesomeIcon
-                    icon={faTrashCan}
-                    className="text-lg lg:text-2xl"
-                  />
-                </button>
+                  <div className="flex flex-row gap-2 mr-2">
+                    <button onClick={() => toggleUpdateTask(task.id)}>
+                      <FontAwesomeIcon
+                        icon={faPenToSquare}
+                        className="text-lg lg:text-2xl"
+                      />
+                    </button>
+                    <button onClick={() => handleDeleteTask(task.id)}>
+                      <FontAwesomeIcon
+                        icon={faTrashCan}
+                        className="text-lg lg:text-2xl"
+                      />
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  {displayDetails[task.id] && (
+                    <h2 className="ml-[60px] lg:ml-16 opacity-50">
+                      {task.details}
+                    </h2>
+                  )}
+                </div>
               </div>
-            </div>
-            {displayDetails[task.id] && (
-              <h2 className="ml-[60px] lg:ml-16 opacity-50">{task.details}</h2>
             )}
           </div>
         ))}

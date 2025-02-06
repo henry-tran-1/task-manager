@@ -31,7 +31,7 @@ export default function AddTask({
   // mutation hook to add task
   const addTask = useCreateTask()
 
-  // handles submitting form
+  // handles form submit
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     addTask.mutate(formState)
