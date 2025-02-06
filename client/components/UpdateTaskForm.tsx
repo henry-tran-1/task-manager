@@ -32,7 +32,16 @@ export default function UpdateTaskForm({
   const [formState, setFormState] = useState(task)
 
   // handles form submit
-  const handleSubmit = () => {}
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    editTask.mutate({
+      id: formState.id,
+      title: formState.title,
+      details: formState.details,
+      priority: formState.priority,
+      updatedAt: formState.updatedAt,
+    })
+  }
   // handles form changes
   const handleChange = (
     event:
@@ -158,7 +167,7 @@ export default function UpdateTaskForm({
           </div>
           <button
             type="submit"
-            className="px-1 bg-black rounded-md text-tabGray translate-y-[-15px]"
+            className="px-1 bg-black rounded-md text-tabGray translate-y-[-15px] mr-1"
           >
             Update
           </button>
