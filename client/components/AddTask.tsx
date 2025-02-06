@@ -73,51 +73,52 @@ export default function AddTask({
         onSubmit={handleSubmit}
         className="flex items-center justify-around p-1"
       >
-        <div
-          className={`${displayFormState ? 'flex lg:-mr-8' : 'invisible -my-16 lg:-mr-3'} `}
-        >
-          <p className={`-mr-8 -rotate-90`}>Priority</p>
-          <div className="flex flex-col">
-            <label className="flex items-center cursor-pointer">
-              <input
-                onChange={handleChange}
-                type="radio"
-                name="priority"
-                value="1"
-                className="hidden peer"
-                defaultChecked={formState.priority === 1}
-              />
-              <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black peer-checked:border-black"></span>
-              <span className="ml-1">low</span>
-            </label>
-            <label className="flex items-center cursor-pointer">
-              <input
-                onChange={handleChange}
-                type="radio"
-                name="priority"
-                value="2"
-                className="hidden peer"
-                defaultChecked={formState.priority === 2}
-              />
-              <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black "></span>
-              <span className="ml-1">med</span>
-            </label>
-            <label className="flex items-center cursor-pointer">
-              <input
-                onChange={handleChange}
-                type="radio"
-                name="priority"
-                value="3"
-                className="hidden peer"
-                defaultChecked={formState.priority === 3}
-              />
-              <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black peer-checked:border-black"></span>
-              <span className="ml-1">high</span>
-            </label>
+        {/* left section */}
+        <section className={`lg:w-36 flex justify-center`}>
+          <div className={`${displayFormState ? 'flex' : 'hidden'} `}>
+            <p className={`-mr-8 -rotate-90`}>Priority</p>
+            <div className="flex flex-col">
+              <label className="flex items-center cursor-pointer">
+                <input
+                  onChange={handleChange}
+                  type="radio"
+                  name="priority"
+                  value="1"
+                  className="hidden peer"
+                  defaultChecked={formState.priority === 1}
+                />
+                <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black peer-checked:border-black"></span>
+                <span className="ml-1">low</span>
+              </label>
+              <label className="flex items-center cursor-pointer">
+                <input
+                  onChange={handleChange}
+                  type="radio"
+                  name="priority"
+                  value="2"
+                  className="hidden peer"
+                  defaultChecked={formState.priority === 2}
+                />
+                <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black "></span>
+                <span className="ml-1">med</span>
+              </label>
+              <label className="flex items-center cursor-pointer">
+                <input
+                  onChange={handleChange}
+                  type="radio"
+                  name="priority"
+                  value="3"
+                  className="hidden peer"
+                  defaultChecked={formState.priority === 3}
+                />
+                <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black peer-checked:border-black"></span>
+                <span className="ml-1">high</span>
+              </label>
+            </div>
           </div>
-        </div>
+        </section>
 
-        <div className="flex flex-col w-[60%] m-2">
+        <section className="flex flex-col w-[70%] m-2">
           <input
             onChange={handleChange}
             onFocus={() => onClickDisplayForm(true)}
@@ -138,14 +139,16 @@ export default function AddTask({
             value={formState.details}
             className={`${displayFormState ? 'flex' : 'hidden'} text-base text-center bg-tabGray mt-2`}
           />
-        </div>
+        </section>
 
-        <button
-          type="submit"
-          className={`${displayFormState ? 'flex' : 'invisible -my-16'}  text-lg`}
-        >
-          <FontAwesomeIcon icon={faCirclePlus} className="text-4xl" />
-        </button>
+        <section className="flex justify-center lg:w-16">
+          <button
+            type="submit"
+            className={`${displayFormState ? 'flex' : 'hidden'}  text-lg`}
+          >
+            <FontAwesomeIcon icon={faCirclePlus} className="text-4xl" />
+          </button>
+        </section>
       </form>
     </section>
   )
