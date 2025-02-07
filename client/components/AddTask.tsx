@@ -73,8 +73,8 @@ export default function AddTask({
         onSubmit={handleSubmit}
         className="flex items-center justify-around p-1"
       >
-        {/* left section */}
-        <section className={`lg:w-36 flex justify-center`}>
+        {/* left section: priority buttons */}
+        <section className={`lg:w-36 flex justify-center -ml-4`}>
           <div className={`${displayFormState ? 'flex' : 'hidden'} `}>
             <div className="flex items-center ">
               <p className={`-rotate-90 text-base`}>Priority</p>
@@ -121,6 +121,7 @@ export default function AddTask({
           </div>
         </section>
 
+        {/* middle section (input) */}
         <section className="flex flex-col w-[70%] m-2">
           <input
             onChange={handleChange}
@@ -144,6 +145,7 @@ export default function AddTask({
           />
         </section>
 
+        {/* right section: add button */}
         <section className="flex justify-center lg:w-16">
           <button
             type="submit"
