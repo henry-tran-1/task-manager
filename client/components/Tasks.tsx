@@ -88,7 +88,7 @@ export default function Tasks({ displayWindowState }: Props) {
 
   return (
     <section
-      className={`${displayWindowState ? 'block' : 'invisible'} w-full h-full bg-backgroundWhite pt-2`}
+      className={`${displayWindowState ? 'block' : 'invisible'} w-full h-full bg-backgroundWhite pt-2 overflow-y-auto`}
     >
       <div className="flex h-12">
         <div className="inline-flex items-end">
