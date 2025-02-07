@@ -32,7 +32,7 @@ export default function App() {
       className="flex items-center justify-center w-screen h-screen bg-backgroundBlue font-body"
     >
       <div
-        className={`w-screen h-screen ${maxWindow ? 'lg:w-screen lg:h-screen' : 'lg:w-[800px] lg:h-[600px]'} `}
+        className={`w-screen h-screen ${maxWindow ? 'lg:w-screen lg:h-screen' : 'lg:w-[800px] lg:max-h-[600px]'} `}
       >
         <div className="flex flex-col w-full h-full">
           <TitleBar
