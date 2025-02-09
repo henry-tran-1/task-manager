@@ -83,10 +83,8 @@ export default function App() {
       className="fixed w-screen h-screen bg-backgroundBlue font-body"
     >
       <div
-
         style={{ left: `${position.x}px`, top: `${position.y}px` }}
         className={`w-screen h-screen ${maxWindow ? 'lg:w-screen lg:h-screen' : 'lg:w-[800px] lg:h-[600px]'} absolute `}
-main
       >
         <div className="flex flex-col w-full h-full">
           <TitleBar
