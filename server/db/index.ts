@@ -15,15 +15,17 @@ export async function createTask(task: Task, db = connection): Promise<void> {
 
 // get all tasks
 export async function getAllTasks(db = connection): Promise<TaskWithId[]> {
-  return db('tasks').select(
-    'id as id',
-    'title as title',
-    'details as details',
-    'priority as priority',
-    'is_completed as isCompleted',
-    'created_at as completedAt',
-    'updated_at as updatedAt',
-  )
+  return db('tasks')
+    .select(
+      'id as id',
+      'title as title',
+      'details as details',
+      'priority as priority',
+      'is_completed as isCompleted',
+      'created_at as completedAt',
+      'updated_at as updatedAt',
+    )
+    .orderBy('updated_at', 'desc')
 }
 
 // get task by id
