@@ -1,10 +1,10 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import AddTask from './AddTask.tsx'
 import Tasks from './Tasks.tsx'
 import TitleBar from './TitleBar.tsx'
-
 export default function App() {
   // state to toggle fullscreen
   const [maxWindow, setMaxWindow] = useState(false)
@@ -12,10 +12,19 @@ export default function App() {
   const [displayWindow, setDisplayWindow] = useState(true)
   // state to handle the display of the full add-task form
   const [displayForm, setDisplayForm] = useState(false)
+  // state to track when app is draggable
+  const [isDragging, setIsDragging] = useState(false)
+  // state to track app position
+  const [position, setPosition] = useState({ x: 0, y: 0 })
+  // state to track initial mouse position
+  const [startMouse, setStartMouse] = useState({ x: 0, y: 0 })
 
   // handler to toggle fullscreen
   const toggleMaxWindow = () => {
     setMaxWindow((prev) => !prev)
+    if (!maxWindow) {
+      setPosition({ x: 0, y: 0 })
+    }
   }
   // handler to toggle open/close window
   const toggleDisplayWindow = () => {
@@ -26,19 +35,66 @@ export default function App() {
     setDisplayForm(() => display)
   }
 
+  // handler for when mouse is clicked to begin dragging
+  const handleMouseDown = (event: React.MouseEvent) => {
+    if (maxWindow) return
+
+    event.preventDefault()
+
+    setIsDragging(() => true)
+    setStartMouse(() => ({
+      x: event.clientX - position.x,
+      y: event.clientY - position.y,
+    }))
+  }
+
+  // handler for when mouse is moved to drag app around
+  const handleMouseMove = useCallback(
+    (event: React.MouseEvent | MouseEvent) => {
+      if (!isDragging) return
+      setPosition(() => ({
+        x: event.clientX - startMouse.x,
+        y: event.clientY - startMouse.y,
+      }))
+    },
+    [isDragging, startMouse.x, startMouse.y],
+  )
+
+  // handler for when mouse is released to stop dragging
+  const handleMouseUp = () => {
+    setIsDragging(() => false)
+  }
+
+  // handles when mouse is clicked to drag
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove)
+      document.addEventListener('mouseup', handleMouseUp)
+    }
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseup', handleMouseUp)
+    }
+  }, [handleMouseMove, isDragging])
+
   return (
     <main
       onClick={() => toggleDisplayForm(false)}
-      className="flex items-center justify-center w-screen h-screen bg-backgroundBlue font-body"
+      className="fixed w-screen h-screen bg-backgroundBlue font-body"
     >
       <div
-        className={`w-screen h-screen ${maxWindow ? 'lg:w-screen lg:h-screen' : 'lg:w-[800px] lg:max-h-[600px]'} `}
+
+        style={{ left: `${position.x}px`, top: `${position.y}px` }}
+        className={`w-screen h-screen ${maxWindow ? 'lg:w-screen lg:h-screen' : 'lg:w-[800px] lg:h-[600px]'} absolute `}
+main
       >
         <div className="flex flex-col w-full h-full">
           <TitleBar
             onClickMaxWindow={toggleMaxWindow}
             onClickDisplayWindow={toggleDisplayWindow}
             maxWindowState={maxWindow}
+            onMouseDown={handleMouseDown}
+            isDragging={isDragging}
           />
           <AddTask
             displayWindowState={displayWindow}

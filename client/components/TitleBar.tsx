@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import {
   faCompress,
   faExpand,
@@ -10,17 +12,23 @@ interface Props {
   onClickMaxWindow: () => void
   onClickDisplayWindow: () => void
   maxWindowState: boolean
+  onMouseDown: (event: React.MouseEvent) => void
+  isDragging: boolean
 }
 
 export default function TitleBar({
   onClickMaxWindow,
   onClickDisplayWindow,
   maxWindowState,
+  onMouseDown,
+  isDragging,
 }: Props) {
   return (
     <header
       className="bg-titleBlue h-[32px] lg:h-[40px] flex justify-between border-b border-borderGray"
       onClick={(e) => e.stopPropagation()}
+      onMouseDown={onMouseDown}
+      style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
     >
       {/* left section of title bar */}
       <section className="flex items-center justify-start gap-1">
