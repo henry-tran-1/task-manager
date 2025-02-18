@@ -13,6 +13,7 @@ import { CompleteTask, TaskWithId } from '../../models/tasks'
 import useDeleteTaskById from '../hooks/useDeleteTaskById'
 import useCompleteTaskById from '../hooks/useCompleteTaskById'
 import UpdateTaskForm from './UpdateTaskForm'
+import Task from './Task'
 
 interface Props {
   displayWindowState: boolean
@@ -136,70 +137,14 @@ export default function Tasks({ displayWindowState }: Props) {
               />
             ) : (
               <div>
-                <div className={`flex flex-row justify-between `}>
-                  <div className="flex flex-row gap-2 ml-2">
-                    <button
-                      onClick={() => toggleDisplayDetails(task.id)}
-                      className="w-5 h-5"
-                    >
-                      {displayDetails[task.id] ? (
-                        <FontAwesomeIcon
-                          icon={faAngleDown}
-                          className="text-lg opacity-50"
-                        />
-                      ) : (
-                        <FontAwesomeIcon
-                          icon={faAngleRight}
-                          className="text-lg opacity-50"
-                        />
-                      )}
-                    </button>
-                    <button
-                      onClick={() =>
-                        handleCompleteTask(task.id, task.isCompleted)
-                      }
-                    >
-                      {task.isCompleted ? (
-                        <FontAwesomeIcon
-                          icon={faSquareCheck}
-                          className="text-lg lg:text-2xl"
-                        />
-                      ) : (
-                        <FontAwesomeIcon
-                          icon={faSquare}
-                          className="text-lg lg:text-2xl"
-                        />
-                      )}
-                    </button>
-                    <h2
-                      className={`${task.isCompleted && 'line-through'} px-1`}
-                    >
-                      {task.title}
-                    </h2>
-                  </div>
-
-                  <div className="flex flex-row gap-2 mr-2">
-                    <button onClick={() => toggleUpdateTask(task.id)}>
-                      <FontAwesomeIcon
-                        icon={faPenToSquare}
-                        className="text-lg lg:text-2xl"
-                      />
-                    </button>
-                    <button onClick={() => handleDeleteTask(task.id)}>
-                      <FontAwesomeIcon
-                        icon={faTrashCan}
-                        className="text-lg lg:text-2xl"
-                      />
-                    </button>
-                  </div>
-                </div>
-                <div>
-                  {displayDetails[task.id] && (
-                    <h2 className="ml-[60px] lg:ml-[69px] opacity-50">
-                      {task.details}
-                    </h2>
-                  )}
-                </div>
+                <Task
+                  task={task}
+                  displayDetails={displayDetails}
+                  deleteTask={handleDeleteTask}
+                  updateTask={toggleUpdateTask}
+                  completeTask={handleCompleteTask}
+                  toggleDisplayDetails={toggleDisplayDetails}
+                />
               </div>
             )}
           </div>
