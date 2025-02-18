@@ -1,18 +1,10 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useGetAllTasks from '../hooks/useGetAllTasks'
-import {
-  faAngleDown,
-  faAngleRight,
-  faPenToSquare,
-  faSquareCheck,
-  faTrashCan,
-} from '@fortawesome/free-solid-svg-icons'
-import { faSquare } from '@fortawesome/free-regular-svg-icons'
 import { useEffect, useState } from 'react'
 import { CompleteTask, TaskWithId } from '../../models/tasks'
 import useDeleteTaskById from '../hooks/useDeleteTaskById'
 import useCompleteTaskById from '../hooks/useCompleteTaskById'
 import UpdateTaskForm from './UpdateTaskForm'
+import Task from './Task'
 
 interface Props {
   displayWindowState: boolean
@@ -99,19 +91,19 @@ export default function Tasks({ displayWindowState }: Props) {
             All
           </button>
           <button
-            className={`${displayPriority === 3 ? 'bg-white h-12' : 'bg-tabGray h-10 border-b'} transition-all duration-100 border-t border-x px-6 border-borderGray mx-[-1px]`}
+            className={`${displayPriority === 3 ? 'bg-white h-12' : 'bg-[#D6A5A5] h-10 border-b'} transition-all duration-100 border-t border-x px-6 border-borderGray mx-[-1px]`}
             onClick={() => toggleDisplayPriority(3)}
           >
             High
           </button>
           <button
-            className={`${displayPriority === 2 ? 'bg-white h-12' : 'bg-tabGray h-10 border-b'} transition-all duration-100 border-t border-x px-6  bg-tabGray border-borderGray mr-[-1px]`}
+            className={`${displayPriority === 2 ? 'bg-white h-12' : 'bg-[#E3D5A0] h-10 border-b'} transition-all duration-100 border-t border-x px-6  bg-tabGray border-borderGray mr-[-1px]`}
             onClick={() => toggleDisplayPriority(2)}
           >
             Med
           </button>
           <button
-            className={`${displayPriority === 1 ? 'bg-white h-12' : 'bg-tabGray h-10 border-b'} transition-all duration-100 border-t border-x px-6  bg-tabGray border-borderGray`}
+            className={`${displayPriority === 1 ? 'bg-white h-12' : 'bg-[#A8C3A2] h-10 border-b'} transition-all duration-100 border-t border-x px-6  bg-tabGray border-borderGray`}
             onClick={() => toggleDisplayPriority(1)}
           >
             Low
@@ -136,70 +128,14 @@ export default function Tasks({ displayWindowState }: Props) {
               />
             ) : (
               <div>
-                <div className={`flex flex-row justify-between `}>
-                  <div className="flex flex-row gap-2 ml-2">
-                    <button
-                      onClick={() => toggleDisplayDetails(task.id)}
-                      className="w-5 h-5"
-                    >
-                      {displayDetails[task.id] ? (
-                        <FontAwesomeIcon
-                          icon={faAngleDown}
-                          className="text-lg opacity-50"
-                        />
-                      ) : (
-                        <FontAwesomeIcon
-                          icon={faAngleRight}
-                          className="text-lg opacity-50"
-                        />
-                      )}
-                    </button>
-                    <button
-                      onClick={() =>
-                        handleCompleteTask(task.id, task.isCompleted)
-                      }
-                    >
-                      {task.isCompleted ? (
-                        <FontAwesomeIcon
-                          icon={faSquareCheck}
-                          className="text-lg lg:text-2xl"
-                        />
-                      ) : (
-                        <FontAwesomeIcon
-                          icon={faSquare}
-                          className="text-lg lg:text-2xl"
-                        />
-                      )}
-                    </button>
-                    <h2
-                      className={`${task.isCompleted && 'line-through'} px-1`}
-                    >
-                      {task.title}
-                    </h2>
-                  </div>
-
-                  <div className="flex flex-row gap-2 mr-2">
-                    <button onClick={() => toggleUpdateTask(task.id)}>
-                      <FontAwesomeIcon
-                        icon={faPenToSquare}
-                        className="text-lg lg:text-2xl"
-                      />
-                    </button>
-                    <button onClick={() => handleDeleteTask(task.id)}>
-                      <FontAwesomeIcon
-                        icon={faTrashCan}
-                        className="text-lg lg:text-2xl"
-                      />
-                    </button>
-                  </div>
-                </div>
-                <div>
-                  {displayDetails[task.id] && (
-                    <h2 className="ml-[60px] lg:ml-[69px] opacity-50">
-                      {task.details}
-                    </h2>
-                  )}
-                </div>
+                <Task
+                  task={task}
+                  displayDetails={displayDetails}
+                  deleteTask={handleDeleteTask}
+                  updateTask={toggleUpdateTask}
+                  completeTask={handleCompleteTask}
+                  toggleDisplayDetails={toggleDisplayDetails}
+                />
               </div>
             )}
           </div>
