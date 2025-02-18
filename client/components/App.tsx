@@ -18,6 +18,25 @@ export default function App() {
   const [position, setPosition] = useState({ x: 0, y: 0 })
   // state to track initial mouse position
   const [startMouse, setStartMouse] = useState({ x: 0, y: 0 })
+  // state to handle size of app window
+  const [size, setSize] = useState({ width: 700, height: 600 })
+  // state to track initial window size
+  const [initialSize, setInitialSize] = useState({ width: 700, height: 600 })
+  // state to handle when app is resizing
+  const [isResizing, setIsResizing] = useState(false)
+  // state to track initial mouse position for resizing
+  const [startMouseResize, setStartMouseResize] = useState({ x: 0, y: 0 })
+  // state to track if large screen
+  const [isLargeScreen, setIsLargeScreen] = useState(false)
+
+  // tracks screen size and updates isLargeScreen
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLargeScreen(() => window.innerWidth >= 1024)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+  })
 
   // handler to toggle fullscreen
   const toggleMaxWindow = () => {
@@ -77,13 +96,70 @@ export default function App() {
     }
   }, [handleMouseMove, isDragging])
 
+  // handler for when mouse is clicked to begin resizing
+  const handleMouseDownResize = (event: React.MouseEvent) => {
+    event.preventDefault()
+    setIsResizing(() => true)
+    setStartMouseResize(() => ({
+      x: event.clientX,
+      y: event.clientY,
+    }))
+    setInitialSize(() => ({
+      width: size.width,
+      height: size.height,
+    }))
+  }
+  // handler for when mouse is moved to resize app
+  const handleMouseMoveResize = useCallback(
+    (event: React.MouseEvent | MouseEvent) => {
+      if (!isResizing) return
+
+      const dx = event.clientX - startMouseResize.x
+      const dy = event.clientY - startMouseResize.y
+
+      setSize(() => ({
+        width: initialSize.width + dx,
+        height: initialSize.height + dy,
+      }))
+    },
+    [
+      isResizing,
+      startMouseResize.x,
+      startMouseResize.y,
+      initialSize.width,
+      initialSize.height,
+    ],
+  )
+
+  // handler for when mouse is released to stop resizing
+  const handleMouseUpResize = () => {
+    setIsResizing(() => false)
+  }
+
+  // handles when mouse is clicked to resize
+  useEffect(() => {
+    if (isResizing) {
+      document.addEventListener('mousemove', handleMouseMoveResize)
+      document.addEventListener('mouseup', handleMouseUpResize)
+    }
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMoveResize)
+      document.removeEventListener('mouseup', handleMouseUpResize)
+    }
+  }, [isResizing, handleMouseMoveResize])
+
   return (
     <main
       onClick={() => toggleDisplayForm(false)}
       className="fixed w-screen h-screen bg-backgroundBlue font-body"
     >
       <div
-        style={{ left: `${position.x}px`, top: `${position.y}px` }}
+        style={{
+          left: `${position.x}px`,
+          top: `${position.y}px`,
+          width: isLargeScreen && !maxWindow ? size.width : undefined,
+          height: isLargeScreen && !maxWindow ? size.height : undefined,
+        }}
         className={`w-screen h-screen ${maxWindow ? 'lg:w-screen lg:h-screen' : 'lg:w-[800px] lg:h-[600px]'} absolute `}
       >
         <div className="flex flex-col w-full h-full">
@@ -101,6 +177,10 @@ export default function App() {
           />
           <Tasks displayWindowState={displayWindow} />
         </div>
+        <div
+          onMouseDown={handleMouseDownResize}
+          className="absolute w-3 h-3 bg-transparent -bottom-1 -right-1 cursor-se-resize"
+        ></div>
       </div>
     </main>
   )
