@@ -17,7 +17,7 @@ export default function App() {
   // state to track when app is draggable
   const [isDragging, setIsDragging] = useState(false)
   // state to track app position
-  const [position, setPosition] = useState({})
+  const [position, setPosition] = useState({ x: 0, y: 0 })
   // state to track initial mouse position
   const [startMouse, setStartMouse] = useState({ x: 0, y: 0 })
   // state to handle size of app window
