@@ -192,7 +192,7 @@ export default function App() {
         </div>
         <div
           onMouseDown={handleMouseDownResize}
-          className="absolute w-3 h-3 bg-transparent -bottom-1 -right-1 cursor-se-resize"
+          className="absolute w-4 h-4 bg-transparent -bottom-1 -right-1 cursor-se-resize"
         ></div>
       </div>
     </main>
