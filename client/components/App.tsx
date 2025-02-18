@@ -6,6 +6,8 @@ import AddTask from './AddTask.tsx'
 import Tasks from './Tasks.tsx'
 import TitleBar from './TitleBar.tsx'
 export default function App() {
+  // state to track if large screen
+  const [isLargeScreen, setIsLargeScreen] = useState(false)
   // state to toggle fullscreen
   const [maxWindow, setMaxWindow] = useState(false)
   // state to toggle open/close window
@@ -15,10 +17,7 @@ export default function App() {
   // state to track when app is draggable
   const [isDragging, setIsDragging] = useState(false)
   // state to track app position
-  const [position, setPosition] = useState({
-    x: window.innerWidth / 2 - 350,
-    y: window.innerHeight / 2 - 300,
-  })
+  const [position, setPosition] = useState({})
   // state to track initial mouse position
   const [startMouse, setStartMouse] = useState({ x: 0, y: 0 })
   // state to handle size of app window
@@ -29,17 +28,28 @@ export default function App() {
   const [isResizing, setIsResizing] = useState(false)
   // state to track initial mouse position for resizing
   const [startMouseResize, setStartMouseResize] = useState({ x: 0, y: 0 })
-  // state to track if large screen
-  const [isLargeScreen, setIsLargeScreen] = useState(false)
 
   // tracks screen size and updates isLargeScreen
   useEffect(() => {
     const handleResize = () => {
       setIsLargeScreen(() => window.innerWidth >= 1024)
     }
+
+    if (window.innerWidth >= 1024) {
+      setPosition({
+        x: window.innerWidth / 2 - 350,
+        y: window.innerHeight / 2 - 300,
+      })
+    } else {
+      setPosition({
+        x: 0,
+        y: 0,
+      })
+    }
+
     handleResize()
     window.addEventListener('resize', handleResize)
-  })
+  }, [])
 
   // handler to toggle fullscreen
   const toggleMaxWindow = () => {
