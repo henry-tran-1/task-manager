@@ -1,13 +1,4 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useGetAllTasks from '../hooks/useGetAllTasks'
-import {
-  faAngleDown,
-  faAngleRight,
-  faPenToSquare,
-  faSquareCheck,
-  faTrashCan,
-} from '@fortawesome/free-solid-svg-icons'
-import { faSquare } from '@fortawesome/free-regular-svg-icons'
 import { useEffect, useState } from 'react'
 import { CompleteTask, TaskWithId } from '../../models/tasks'
 import useDeleteTaskById from '../hooks/useDeleteTaskById'
