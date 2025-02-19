@@ -1,6 +1,8 @@
 import { CompleteTask, Task, TaskWithId, UpdateTask } from '../../models/tasks'
 import connection from './connection.ts'
 
+const isProduction = process.env.NODE_ENV === 'production'
+
 // create new task
 export async function createTask(task: Task, db = connection): Promise<void> {
   await db('tasks').insert({
@@ -8,8 +10,8 @@ export async function createTask(task: Task, db = connection): Promise<void> {
     details: task.details,
     priority: task.priority,
     is_completed: task.isCompleted,
-    created_at: task.createdAt,
-    updated_at: task.updatedAt,
+    created_at: isProduction ? new Date(task.createdAt * 1000) : task.createdAt,
+    updated_at: isProduction ? new Date(task.updatedAt * 1000) : task.updatedAt,
   })
 }
 
@@ -23,7 +25,7 @@ export async function getAllTasks(db = connection): Promise<TaskWithId[]> {
       'priority as priority',
       'is_completed as isCompleted',
       'created_at as completedAt',
-      'updated_at as updatedAt',
+      'updated_at as updatedAt'
     )
     .orderBy('updated_at', 'desc')
 }
@@ -31,7 +33,7 @@ export async function getAllTasks(db = connection): Promise<TaskWithId[]> {
 // get task by id
 export async function getTask(
   id: number,
-  db = connection,
+  db = connection
 ): Promise<TaskWithId> {
   return db('tasks')
     .select(
@@ -41,7 +43,7 @@ export async function getTask(
       'priority as priority',
       'is_completed as isCompleted',
       'created_at as completedAt',
-      'updated_at as updatedAt',
+      'updated_at as updatedAt'
     )
     .where('id', id)
     .first()
@@ -51,7 +53,7 @@ export async function getTask(
 export async function updateTaskById(
   id: number,
   task: Task,
-  db = connection,
+  db = connection
 ): Promise<void> {
   await db('tasks').where('id', id).update({
     title: task.title,
@@ -66,7 +68,7 @@ export async function updateTaskById(
 // delete task by id
 export async function deleteTaskById(
   id: number,
-  db = connection,
+  db = connection
 ): Promise<void> {
   await db('tasks').where('id', id).del()
 }
@@ -75,7 +77,7 @@ export async function deleteTaskById(
 export async function completeTaskById(
   id: number,
   taskStatus: CompleteTask,
-  db = connection,
+  db = connection
 ): Promise<void> {
   await db('tasks')
     .where('id', id)

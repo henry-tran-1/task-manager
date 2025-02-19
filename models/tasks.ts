@@ -4,8 +4,8 @@ export interface Task {
   details: string
   priority: number
   isCompleted: boolean
-  createdAt: number
-  updatedAt: number
+  createdAt: number | Date
+  updatedAt: number | Date
 }
 
 // getting a task by id
@@ -19,7 +19,7 @@ export interface UpdateTask {
   title?: string
   details?: string
   priority?: number
-  updatedAt: number
+  updatedAt: number | Date
 }
 
 // deleting a task by id
