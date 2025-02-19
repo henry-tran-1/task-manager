@@ -55,14 +55,20 @@ export async function updateTaskById(
   task: Task,
   db = connection
 ): Promise<void> {
-  await db('tasks').where('id', id).update({
-    title: task.title,
-    details: task.details,
-    priority: task.priority,
-    is_completed: task.isCompleted,
-    created_at: task.createdAt,
-    updated_at: task.updatedAt,
-  })
+  await db('tasks')
+    .where('id', id)
+    .update({
+      title: task.title,
+      details: task.details,
+      priority: task.priority,
+      is_completed: task.isCompleted,
+      created_at: isProduction
+        ? new Date(task.createdAt * 1000)
+        : task.createdAt,
+      updated_at: isProduction
+        ? new Date(task.updatedAt * 1000)
+        : task.updatedAt,
+    })
 }
 
 // delete task by id
