@@ -46,7 +46,7 @@ export default function UpdateTaskForm({
   const handleChange = (
     event:
       | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>,
+      | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const { name, value } = event.target
 
@@ -97,7 +97,9 @@ export default function UpdateTaskForm({
                 id="title"
                 type="text"
                 value={formState.title}
-                className={`${index % 2 ? 'bg-tabGray' : 'bg-white'} w-full  px-1 `}
+                className={`${
+                  index % 2 ? 'bg-tabGray' : 'bg-white'
+                } w-full lg:w-3/4  px-1 `}
               />
             </div>
           </div>
@@ -123,7 +125,9 @@ export default function UpdateTaskForm({
             name="details"
             id="details"
             value={formState.details}
-            className={`${index % 2 ? 'bg-tabGray' : 'bg-white'} ml-[60px] lg:ml-16 opacity-50  lg:w-[650px] w-[250px] px-1 `}
+            className={`${
+              index % 2 ? 'bg-tabGray' : 'bg-white'
+            } ml-[60px] lg:ml-16 opacity-50  lg:w-3/4 w-[250px] px-1 `}
           />
         </div>
         <div className="flex justify-between">
