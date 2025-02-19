@@ -62,7 +62,7 @@ export async function updateTaskById(
       details: task.details,
       priority: task.priority,
       is_completed: task.isCompleted,
-      created_at: isProduction ? new Date(task.createdAt) : task.createdAt,
+      created_at: task.createdAt,
       updated_at: isProduction ? new Date(task.updatedAt) : task.updatedAt,
     })
 }
