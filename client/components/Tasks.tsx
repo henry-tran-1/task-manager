@@ -80,30 +80,48 @@ export default function Tasks({ displayWindowState }: Props) {
 
   return (
     <section
-      className={`${displayWindowState ? 'block' : 'invisible'} w-full h-full bg-backgroundWhite pt-2 overflow-y-auto`}
+      className={`${
+        displayWindowState ? 'block' : 'invisible'
+      } w-full h-full bg-backgroundWhite pt-2 overflow-y-auto`}
     >
       <div className="flex h-12">
         <div className="inline-flex items-end">
           <button
-            className={`${displayPriority === 0 ? 'bg-white h-12' : 'bg-tabGray h-10 border-b'} transition-all duration-100 px-6 border-t border-r border-borderGray`}
+            className={`${
+              displayPriority === 0
+                ? 'bg-white h-12 font-bold'
+                : 'bg-tabGray h-10 border-b font-normal'
+            } transition-all duration-100 px-6 border-t border-r border-borderGray`}
             onClick={() => toggleDisplayPriority(0)}
           >
             All
           </button>
           <button
-            className={`${displayPriority === 3 ? 'bg-white h-12' : 'bg-[#D6A5A5] h-10 border-b'} transition-all duration-100 border-t border-x px-6 border-borderGray mx-[-1px]`}
+            className={`${
+              displayPriority === 3
+                ? 'bg-white h-12 font-bold'
+                : 'bg-[#D6A5A5] h-10 border-b font-normal'
+            } transition-all duration-100 border-t border-x px-6 border-borderGray mx-[-1px]`}
             onClick={() => toggleDisplayPriority(3)}
           >
             High
           </button>
           <button
-            className={`${displayPriority === 2 ? 'bg-white h-12' : 'bg-[#E3D5A0] h-10 border-b'} transition-all duration-100 border-t border-x px-6  border-borderGray mr-[-1px]`}
+            className={`${
+              displayPriority === 2
+                ? 'bg-white h-12 font-bold'
+                : 'bg-[#E3D5A0] h-10 border-b font-normal'
+            } transition-all duration-100 border-t border-x px-6  border-borderGray mr-[-1px]`}
             onClick={() => toggleDisplayPriority(2)}
           >
             Med
           </button>
           <button
-            className={`${displayPriority === 1 ? 'bg-white h-12' : 'bg-[#A8C3A2] h-10 border-b'} transition-all duration-100 border-t border-x px-6  border-borderGray`}
+            className={`${
+              displayPriority === 1
+                ? 'bg-white h-12 font-bold'
+                : 'bg-[#A8C3A2] h-10 border-b font-normal'
+            } transition-all duration-100 border-t border-x px-6  border-borderGray`}
             onClick={() => toggleDisplayPriority(1)}
           >
             Low
