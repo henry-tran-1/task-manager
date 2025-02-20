@@ -70,7 +70,7 @@ export default function UpdateTaskForm({
     <section>
       <form onSubmit={handleSubmit}>
         <div className={`flex flex-row justify-between `}>
-          <div className="flex flex-row gap-2 ml-2">
+          <div className="flex flex-row flex-1 gap-2 ml-2">
             <button className="w-5 h-5">
               <FontAwesomeIcon
                 icon={faAngleDown}
@@ -90,7 +90,7 @@ export default function UpdateTaskForm({
                 />
               )}
             </button>
-            <div className="lg:w-[650px] w-[250px]">
+            <div className="flex-1 ">
               <input
                 onChange={handleChange}
                 name="title"
@@ -99,12 +99,12 @@ export default function UpdateTaskForm({
                 value={formState.title}
                 className={`${
                   index % 2 ? 'bg-tabGray' : 'bg-white'
-                } w-full lg:w-3/4  px-1 `}
+                } w-11/12 lg:w-[91%] px-1 `}
               />
             </div>
           </div>
 
-          <div className="flex flex-row gap-2 mr-2">
+          <div className="flex flex-row gap-2 mr-2 shrink-0">
             <button onClick={() => updateTask(task.id)}>
               <FontAwesomeIcon
                 icon={faPenToSquare}
@@ -127,7 +127,7 @@ export default function UpdateTaskForm({
             value={formState.details}
             className={`${
               index % 2 ? 'bg-tabGray' : 'bg-white'
-            } ml-[60px] lg:ml-16 opacity-50  lg:w-3/4 w-[250px] px-1 `}
+            } ml-[60px] lg:ml-16 opacity-50  lg:w-3/4 w-[65%] px-1 `}
           />
         </div>
         <div className="flex justify-between">
@@ -141,7 +141,7 @@ export default function UpdateTaskForm({
                 className="hidden peer"
                 defaultChecked={formState.priority === 1}
               />
-              <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black peer-checked:border-black"></span>
+              <span className="w-4 h-4 bg-white border-2 border-black rounded-sm peer-checked:bg-black peer-checked:border-black"></span>
               <span className="ml-1">low</span>
             </label>
             <label className="flex items-center cursor-pointer">
@@ -153,7 +153,7 @@ export default function UpdateTaskForm({
                 className="hidden peer"
                 defaultChecked={formState.priority === 2}
               />
-              <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black "></span>
+              <span className="w-4 h-4 bg-white border-2 border-black rounded-sm peer-checked:bg-black "></span>
               <span className="ml-1">med</span>
             </label>
             <label className="flex items-center cursor-pointer">
@@ -165,7 +165,7 @@ export default function UpdateTaskForm({
                 className="hidden peer"
                 defaultChecked={formState.priority === 3}
               />
-              <span className="w-5 h-5 bg-white border-2 border-black rounded-sm peer-checked:bg-black peer-checked:border-black"></span>
+              <span className="w-4 h-4 bg-white border-2 border-black rounded-sm peer-checked:bg-black peer-checked:border-black"></span>
               <span className="ml-1">high</span>
             </label>
           </div>
