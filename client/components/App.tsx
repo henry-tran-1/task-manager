@@ -89,7 +89,7 @@ export default function App() {
         y: event.clientY - startMouse.y,
       }))
     },
-    [isDragging, startMouse.x, startMouse.y],
+    [isDragging, startMouse.x, startMouse.y]
   )
 
   // handler for when mouse is released to stop dragging
@@ -130,9 +130,17 @@ export default function App() {
       const dx = event.clientX - startMouseResize.x
       const dy = event.clientY - startMouseResize.y
 
+      // sets minimum width and height to window
+      let newWidth
+      let newHeight
+      if (initialSize.width + dx <= 400) newWidth = 400
+      else newWidth = initialSize.width + dx
+      if (initialSize.height + dy <= 350) newHeight = 350
+      else newHeight = initialSize.height + dy
+
       setSize(() => ({
-        width: initialSize.width + dx,
-        height: initialSize.height + dy,
+        width: newWidth,
+        height: newHeight,
       }))
     },
     [
@@ -141,7 +149,7 @@ export default function App() {
       startMouseResize.y,
       initialSize.width,
       initialSize.height,
-    ],
+    ]
   )
 
   // handler for when mouse is released to stop resizing
@@ -173,7 +181,9 @@ export default function App() {
           width: isLargeScreen && !maxWindow ? size.width : undefined,
           height: isLargeScreen && !maxWindow ? size.height : undefined,
         }}
-        className={`w-screen h-screen ${maxWindow ? 'lg:w-screen lg:h-screen' : 'lg:w-[800px] lg:h-[600px]'} absolute `}
+        className={`w-screen h-screen ${
+          maxWindow ? 'lg:w-screen lg:h-screen' : 'lg:w-[800px] lg:h-[600px]'
+        } absolute `}
       >
         <div className="flex flex-col w-full h-full">
           <TitleBar
