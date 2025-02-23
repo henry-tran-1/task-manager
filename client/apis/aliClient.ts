@@ -41,11 +41,13 @@ export async function updateTaskById(task: UpdateTask) {
 
 // complete task by id
 export async function completeTaskById(taskStatus: CompleteTask) {
-  try {
-    await request.patch(`/api/v1/tasks/${taskStatus.id}`).send(taskStatus)
-  } catch (error) {
-    console.error('Error with completing task by id', error)
+  const response = await request
+    .patch(`/api/v1/tasks/${taskStatus.id}`)
+    .send(taskStatus)
+  if (!response.ok) {
+    throw new Error('Failed to complete task')
   }
+  return response.body
 }
 
 // delete task by id
