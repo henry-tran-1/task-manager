@@ -3,7 +3,10 @@
 Welcome to my task-manager's README. This is a simple CRUD app to keep track of your tasks, with the aesthetics of the humble windows task manager!
 
 ## Features
-
+- Allows users to create, read, update, and delete tasks
+- Displays tasks in different priority tabs
+- Uses optimistic updates for instant task completion toggling
+- Task window can be moved, resized, maximized, and closed
 
 ## Installation
 
@@ -14,7 +17,7 @@ Or you can install it locally:
 
 - Clone repository:
   ```bash
-  https://github.com/henry-tran-1/task-manager
+  git clone https://github.com/henry-tran-1/task-manager
   ```
 - Navigate into repository:
   ```bash
@@ -39,3 +42,4 @@ Or you can install it locally:
 - **Styling:** Tailwind CSS
 
 ## License
+This project is licensed under the MIT License - see the [LICENSE]()
