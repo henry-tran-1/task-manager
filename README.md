@@ -1,6 +1,6 @@
 # Task Manager
 
-Welcome to my task-manager's README. This is a simple CRUD app to keep track of your tasks, with the aesthetics of oldschool windows task manager!
+Welcome to my task-manager's README. This is a simple CRUD app to keep track of your tasks, with the aesthetics of the humble windows task manager!
 
 ## Features
 
