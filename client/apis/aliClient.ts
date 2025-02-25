@@ -40,6 +40,7 @@ export async function updateTaskById(task: UpdateTask) {
 }
 
 // complete task by id
+// handles error different for optimistic updates
 export async function completeTaskById(taskStatus: CompleteTask) {
   const response = await request
     .patch(`/api/v1/tasks/${taskStatus.id}`)

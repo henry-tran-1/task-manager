@@ -5,6 +5,8 @@ import { useCallback, useEffect, useState } from 'react'
 import AddTask from './AddTask.tsx'
 import Tasks from './Tasks.tsx'
 import TitleBar from './TitleBar.tsx'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCopyright } from '@fortawesome/free-solid-svg-icons'
 export default function App() {
   // state to track if large screen
   const [isLargeScreen, setIsLargeScreen] = useState(false)
@@ -183,7 +185,7 @@ export default function App() {
         }}
         className={`w-screen h-screen ${
           maxWindow ? 'lg:w-screen lg:h-screen' : 'lg:w-[800px] lg:h-[600px]'
-        } absolute `}
+        } absolute z-10`}
       >
         <div className="flex flex-col w-full h-full">
           <TitleBar
@@ -204,6 +206,10 @@ export default function App() {
           onMouseDown={handleMouseDownResize}
           className="absolute w-4 h-4 bg-transparent -bottom-1 -right-1 cursor-se-resize"
         ></div>
+      </div>
+      <div className="absolute z-0 flex items-center justify-center w-full gap-2 bottom-2">
+        <FontAwesomeIcon icon={faCopyright} />
+        <p>2025 Henry Tran</p>
       </div>
     </main>
   )
