@@ -4,10 +4,38 @@ Welcome to my task-manager's README. This is a simple CRUD app to keep track of 
 
 ## Features
 
+
 ## Installation
 
-You can find the server running on [http://localhost:3000](http://localhost:3000) and the client running on [http://localhost:5173](http://localhost:5173).
+You can find the app deployed to Railway here:
+[https://henry-task-manager.up.railway.app/](https://henry-task-manager.up.railway.app/)
+
+Or you can install it locally:
+
+- Clone repository:
+  ```bash
+  https://github.com/henry-tran-1/task-manager
+  ```
+- Navigate into repository:
+  ```bash
+  cd task-manager
+  ```
+- Install dependencies/packages:
+  ```bash
+  npm install
+  ```
+- Run the development server:
+  ```bash
+  npm run dev
+  ```
+- Access the app in your browser:
+  http://localhost:5173
+
 
 ## Technologies
+- **Frontend:** React, Typescript
+- **Backend:** Node.js, Express.js
+- **Database:** PostgreSQL, SQLite3, Knex.js
+- **Styling:** Tailwind CSS
 
 ## License
