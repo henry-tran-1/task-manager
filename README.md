@@ -1,6 +1,6 @@
 # Task Manager
 
-Welcome to my task-manager's README. This is a simple CRUD app to keep track of your tasks, with the aesthetics of the humble windows task manager!
+Welcome to my task-manager's README. This is a simple CRUD app to keep track of your tasks, with the aesthetics of the humble Windows Task Manager!
 
 ## Features
 - Allows users to create, read, update, and delete tasks
@@ -10,7 +10,7 @@ Welcome to my task-manager's README. This is a simple CRUD app to keep track of 
 
 ## Installation
 
-You can find the app deployed to Railway here:
+You can find the live app deployed to Railway here:
 [https://henry-task-manager.up.railway.app/](https://henry-task-manager.up.railway.app/)
 
 Or you can install it locally:
@@ -42,4 +42,4 @@ Or you can install it locally:
 - **Styling:** Tailwind CSS
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE]()
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
