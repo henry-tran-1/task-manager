@@ -71,12 +71,14 @@ export default function UpdateTaskForm({
       <form onSubmit={handleSubmit}>
         <div className={`flex flex-row justify-between `}>
           <div className="flex flex-row flex-1 gap-2 ml-2">
+            {/* display details button */}
             <button className="w-5 h-5">
               <FontAwesomeIcon
                 icon={faAngleDown}
                 className="text-lg opacity-50"
               />
             </button>
+            {/* complete/uncomplete box */}
             <button onClick={() => completeTask(task.id, task.isCompleted)}>
               {task.isCompleted ? (
                 <FontAwesomeIcon
@@ -90,6 +92,7 @@ export default function UpdateTaskForm({
                 />
               )}
             </button>
+            {/* update task title input*/}
             <div className="flex-1 ">
               <input
                 onChange={handleChange}
@@ -105,12 +108,14 @@ export default function UpdateTaskForm({
           </div>
 
           <div className="flex flex-row gap-2 mr-2 shrink-0">
+            {/* update task button */}
             <button onClick={() => updateTask(task.id)}>
               <FontAwesomeIcon
                 icon={faPenToSquare}
                 className="text-lg lg:text-2xl"
               />
             </button>
+            {/* delete task button */}
             <button onClick={() => deleteTask(task.id)}>
               <FontAwesomeIcon
                 icon={faTrashCan}
@@ -119,6 +124,7 @@ export default function UpdateTaskForm({
             </button>
           </div>
         </div>
+        {/* update details input*/}
         <div>
           <input
             onChange={handleChange}
@@ -131,6 +137,7 @@ export default function UpdateTaskForm({
           />
         </div>
         <div className="flex justify-between">
+          {/* priority buttons */}
           <div className="flex gap-2 ml-[65px] my-1">
             <label className="flex items-center cursor-pointer">
               <input
@@ -169,6 +176,7 @@ export default function UpdateTaskForm({
               <span className="ml-1">high</span>
             </label>
           </div>
+          {/* update submit button */}
           <button
             type="submit"
             className="px-1 bg-black rounded-md text-tabGray translate-y-[-15px] mr-1"

@@ -3,6 +3,7 @@ import * as API from '../apis/aliClient'
 import { CompleteTask, TaskWithId } from '../../models/tasks'
 
 // complete task by id
+// uses optimistic updating, otherwise site feels sluggish
 export default function useCompleteTaskById() {
   const queryClient = useQueryClient()
 

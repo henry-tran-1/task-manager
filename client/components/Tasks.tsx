@@ -84,8 +84,10 @@ export default function Tasks({ displayWindowState }: Props) {
         displayWindowState ? 'block' : 'invisible'
       } w-full h-full bg-backgroundWhite pt-2 overflow-y-auto`}
     >
+      {/* Priority Tabs */}
       <div className="flex h-12">
         <div className="inline-flex items-end">
+          {/* All */}
           <button
             className={`${
               displayPriority === 0
@@ -96,6 +98,7 @@ export default function Tasks({ displayWindowState }: Props) {
           >
             All
           </button>
+          {/* High */}
           <button
             className={`${
               displayPriority === 3
@@ -106,6 +109,7 @@ export default function Tasks({ displayWindowState }: Props) {
           >
             High
           </button>
+          {/* Med */}
           <button
             className={`${
               displayPriority === 2
@@ -116,6 +120,7 @@ export default function Tasks({ displayWindowState }: Props) {
           >
             Med
           </button>
+          {/* Low */}
           <button
             className={`${
               displayPriority === 1
@@ -130,6 +135,7 @@ export default function Tasks({ displayWindowState }: Props) {
         <div className="w-full bg-white border-b border-borderGray"></div>
       </div>
 
+      {/* Tasks/UpdateTaskForm display */}
       <div className="mt-2">
         {filteredTasks.map((task, index) => (
           <div

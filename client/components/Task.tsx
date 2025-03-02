@@ -11,7 +11,6 @@ import { TaskWithId } from '../../models/tasks'
 
 interface Props {
   task: TaskWithId
-
   displayDetails: { [key: number]: boolean }
   deleteTask: (id: number) => void
   updateTask: (id: number) => void
@@ -31,22 +30,28 @@ export default function Task({
     <section>
       <div className={`flex flex-row justify-between `}>
         <div className="flex flex-row gap-2 ml-2">
-          <button
-            onClick={() => toggleDisplayDetails(task.id)}
-            className="w-5 h-5"
-          >
-            {displayDetails[task.id] ? (
-              <FontAwesomeIcon
-                icon={faAngleDown}
-                className="text-lg opacity-50"
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={faAngleRight}
-                className="text-lg opacity-50"
-              />
-            )}
-          </button>
+          {/* display details button, only displays when details entered, and toggles between carat-right and carat-down */}
+          {task.details === '' ? (
+            <p className="w-5 h-5"></p>
+          ) : (
+            <button
+              onClick={() => toggleDisplayDetails(task.id)}
+              className="w-5 h-5"
+            >
+              {displayDetails[task.id] ? (
+                <FontAwesomeIcon
+                  icon={faAngleDown}
+                  className="text-lg opacity-50"
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faAngleRight}
+                  className="text-lg opacity-50"
+                />
+              )}
+            </button>
+          )}
+          {/* complete/uncomplete box */}
           <button onClick={() => completeTask(task.id, task.isCompleted)}>
             {task.isCompleted ? (
               <FontAwesomeIcon
@@ -60,18 +65,21 @@ export default function Task({
               />
             )}
           </button>
+          {/* task title */}
           <h2 className={`${task.isCompleted && 'line-through'} px-1`}>
             {task.title}
           </h2>
         </div>
 
         <div className="flex flex-row gap-2 mr-2">
+          {/* update task button */}
           <button onClick={() => updateTask(task.id)}>
             <FontAwesomeIcon
               icon={faPenToSquare}
               className="text-lg lg:text-2xl"
             />
           </button>
+          {/* delete task button */}
           <button onClick={() => deleteTask(task.id)}>
             <FontAwesomeIcon
               icon={faTrashCan}
@@ -80,6 +88,7 @@ export default function Task({
           </button>
         </div>
       </div>
+      {/* display details */}
       <div>
         {displayDetails[task.id] && (
           <h2 className="ml-[60px] lg:ml-[69px] opacity-50">{task.details}</h2>
