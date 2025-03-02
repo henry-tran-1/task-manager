@@ -75,6 +75,7 @@ export default function App() {
   const handleMouseDown = (event: React.MouseEvent) => {
     if (maxWindow) return
     event.preventDefault()
+
     setIsDragging(() => true)
     setStartMouse(() => ({
       x: event.clientX - position.x,
