@@ -8,16 +8,18 @@ import TitleBar from './TitleBar.tsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopyright } from '@fortawesome/free-solid-svg-icons'
 export default function App() {
-  // state to track if large screen
+  // state to track if large screen (vs mobile screen)
   const [isLargeScreen, setIsLargeScreen] = useState(false)
   // state to toggle fullscreen
   const [maxWindow, setMaxWindow] = useState(false)
   // state to toggle open/close window
   const [displayWindow, setDisplayWindow] = useState(true)
-  // state to handle the display of the full add-task form
+  // state to handle diplay of full form
   const [displayForm, setDisplayForm] = useState(false)
   // state to track when app is draggable
   const [isDragging, setIsDragging] = useState(false)
+  // state to handle when app is resizing
+  const [isResizing, setIsResizing] = useState(false)
   // state to track app position
   const [position, setPosition] = useState({ x: 0, y: 0 })
   // state to track initial mouse position
@@ -26,8 +28,6 @@ export default function App() {
   const [size, setSize] = useState({ width: 700, height: 600 })
   // state to track initial window size
   const [initialSize, setInitialSize] = useState({ width: 700, height: 600 })
-  // state to handle when app is resizing
-  const [isResizing, setIsResizing] = useState(false)
   // state to track initial mouse position for resizing
   const [startMouseResize, setStartMouseResize] = useState({ x: 0, y: 0 })
 
@@ -37,11 +37,13 @@ export default function App() {
       setIsLargeScreen(() => window.innerWidth >= 1024)
     }
 
+    // if large screen, place the  app in the middle
     if (window.innerWidth >= 1024) {
       setPosition({
         x: window.innerWidth / 2 - 350,
         y: window.innerHeight / 2 - 300,
       })
+      // if mobile screen, place the app at the top left
     } else {
       setPosition({
         x: 0,
@@ -72,9 +74,7 @@ export default function App() {
   // handler for when mouse is clicked to begin dragging
   const handleMouseDown = (event: React.MouseEvent) => {
     if (maxWindow) return
-
     event.preventDefault()
-
     setIsDragging(() => true)
     setStartMouse(() => ({
       x: event.clientX - position.x,
