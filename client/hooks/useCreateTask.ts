@@ -10,19 +10,24 @@ export default function useCreateTask() {
     mutationFn: (task: Task) => API.createTask(task),
 
     onMutate: async (newTask) => {
+      // cancels in-flight queries, which could affect the optimistic update
       await queryClient.cancelQueries({ queryKey: ['tasks'] })
 
-      const previousTasks = queryClient.getQueryData(['tasks']) as TaskWithId
+      // caches current tasks array
+      const previousTasks =
+        queryClient.getQueryData<TaskWithId[]>(['tasks']) || []
 
+      // creates the new task to be added with a placeholder id
       const optimisticTask = {
         id: Date.now(),
         ...newTask,
       }
-      queryClient.setQueryData<TaskWithId[]>(['tasks'], (old = []) => [
-        optimisticTask,
-        ...old,
-      ])
 
+      // adds the current cache to the newly created task, and then set it as ['tasks]
+      const newTasks = [optimisticTask, ...previousTasks]
+      queryClient.setQueryData<TaskWithId[]>(['tasks'], newTasks)
+
+      // this return is for use in the context below
       return { previousTasks }
     },
 
