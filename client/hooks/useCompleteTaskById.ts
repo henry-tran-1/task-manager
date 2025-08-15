@@ -12,18 +12,19 @@ export default function useCompleteTaskById() {
     onMutate: async (newTask) => {
       await queryClient.cancelQueries({ queryKey: ['tasks'] })
 
-      const previousTasks = queryClient.getQueryData(['tasks']) as TaskWithId
+      const previousTasks =
+        queryClient.getQueryData<TaskWithId[]>(['tasks']) || []
 
-      queryClient.setQueryData(['tasks'], (old: TaskWithId[] | undefined) =>
-        old?.map((task) =>
-          task.id === newTask.id
-            ? { ...task, isCompleted: newTask.isCompleted }
-            : task
-        )
+      const newTasks = previousTasks.map((task) =>
+        task.id === newTask.id
+          ? { ...task, isCompleted: newTask.isCompleted }
+          : task
       )
+      queryClient.setQueryData(['tasks'], newTasks)
+
       return { previousTasks }
     },
-    onError: (err, newTask, context) => {
+    onError: (_err, _newTask, context) => {
       queryClient.setQueryData(['tasks'], context?.previousTasks)
     },
     onSettled: () => {
