@@ -23,7 +23,8 @@ export default function useCreateTask() {
         ...newTask,
       }
 
-      // adds the current cache to the newly created task, and then set it as ['tasks]
+      // adds the current cache to the newly created task
+      // then set it as ['tasks']
       const newTasks = [optimisticTask, ...previousTasks]
       queryClient.setQueryData<TaskWithId[]>(['tasks'], newTasks)
 
