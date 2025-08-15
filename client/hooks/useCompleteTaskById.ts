@@ -23,7 +23,7 @@ export default function useCompleteTaskById() {
       )
       return { previousTasks }
     },
-    onError: (err, newTask, context) => {
+    onError: (_err, _newTask, context) => {
       queryClient.setQueryData(['tasks'], context?.previousTasks)
     },
     onSettled: () => {
