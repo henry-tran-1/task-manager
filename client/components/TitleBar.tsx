@@ -5,6 +5,7 @@ import {
   faExpand,
   faListCheck,
   faXmark,
+  faPlus,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -14,6 +15,7 @@ interface Props {
   maxWindowState: boolean
   onMouseDown: (event: React.MouseEvent) => void
   isDragging: boolean
+  isDisplayWindow: boolean
 }
 
 export default function TitleBar({
@@ -22,11 +24,13 @@ export default function TitleBar({
   maxWindowState,
   onMouseDown,
   isDragging,
+  isDisplayWindow,
 }: Props) {
   return (
     <header
       className="bg-titleBlue h-[32px] lg:h-[40px] flex justify-between border-b border-borderGray"
       onClick={(e) => e.stopPropagation()}
+      onDoubleClick={onClickMaxWindow}
       onMouseDown={onMouseDown}
       style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
     >
@@ -41,7 +45,10 @@ export default function TitleBar({
 
       {/* right section of title bar */}
       <section className="flex items-center justify-end gap-1">
-        <button onClick={onClickMaxWindow}>
+        <button
+          onClick={onClickMaxWindow}
+          onDoubleClick={(e) => e.stopPropagation()}
+        >
           {maxWindowState ? (
             <FontAwesomeIcon
               icon={faCompress}
@@ -54,11 +61,21 @@ export default function TitleBar({
             />
           )}
         </button>
-        <button onClick={onClickDisplayWindow}>
-          <FontAwesomeIcon
-            icon={faXmark}
-            className="mx-2 text-lg lg:text-2xl"
-          />
+        <button
+          onClick={onClickDisplayWindow}
+          onDoubleClick={(e) => e.stopPropagation()}
+        >
+          {isDisplayWindow ? (
+            <FontAwesomeIcon
+              icon={faXmark}
+              className="mx-2 text-lg lg:text-2xl"
+            />
+          ) : (
+            <FontAwesomeIcon
+              icon={faPlus}
+              className="mx-2 text-lg lg:text-2xl"
+            />
+          )}
         </button>
       </section>
     </header>
