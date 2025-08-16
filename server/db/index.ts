@@ -3,6 +3,29 @@ import connection from './connection.ts'
 
 const isProduction = process.env.NODE_ENV === 'production'
 
+async function withRetry<T>(
+  operation: () => Promise<T>,
+  maxRetries = 5
+): Promise<T> {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await operation()
+    } catch (err: any) {
+      const isConnectionError =
+        err.code === 'ECONNREFUSED' ||
+        err.code === 'ECONNRESET' ||
+        err.code === 'ENOTFOUND'
+
+      if (!isConnectionError || attempt === maxRetries) {
+        throw err
+      }
+
+      await new Promise((res) => setTimeout(res, 3000))
+    }
+  }
+  throw new Error('Max tries exceeded')
+}
+
 // create new task
 export async function createTask(task: Task, db = connection): Promise<void> {
   await db('tasks').insert({
@@ -15,19 +38,21 @@ export async function createTask(task: Task, db = connection): Promise<void> {
   })
 }
 
-// get all tasks
+// get all tasks, with retry
 export async function getAllTasks(db = connection): Promise<TaskWithId[]> {
-  return db('tasks')
-    .select(
-      'id as id',
-      'title as title',
-      'details as details',
-      'priority as priority',
-      'is_completed as isCompleted',
-      'created_at as completedAt',
-      'updated_at as updatedAt'
-    )
-    .orderBy('updated_at', 'desc')
+  return withRetry(async () => {
+    return db('tasks')
+      .select(
+        'id as id',
+        'title as title',
+        'details as details',
+        'priority as priority',
+        'is_completed as isCompleted',
+        'created_at as completedAt',
+        'updated_at as updatedAt'
+      )
+      .orderBy('updated_at', 'desc')
+  })
 }
 
 // get task by id
