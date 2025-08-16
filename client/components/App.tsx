@@ -65,6 +65,11 @@ export default function App() {
     setMaxWindow((prev) => !prev)
     if (!maxWindow) {
       setPosition({ x: 0, y: 0 })
+    } else {
+      setPosition({
+        x: window.innerWidth / 2 - 350,
+        y: window.innerHeight / 2 - 300,
+      })
     }
   }
   // handler to toggle open/close window
@@ -92,9 +97,13 @@ export default function App() {
   const handleMouseMove = useCallback(
     (event: React.MouseEvent | MouseEvent) => {
       if (!isDragging) return
+
+      const newX = event.clientX - startMouse.x
+      const newY = event.clientY - startMouse.y
+      // stops window from being dragged to an unclickable area
       setPosition(() => ({
-        x: event.clientX - startMouse.x,
-        y: event.clientY - startMouse.y,
+        x: Math.max(-300, Math.min(window.innerWidth - 100, newX)),
+        y: Math.max(0, Math.min(window.innerHeight - 100, newY)),
       }))
     },
     [isDragging, startMouse.x, startMouse.y]
@@ -180,7 +189,7 @@ export default function App() {
   return (
     <main
       onClick={() => toggleDisplayForm(false)}
-      className={`w-screen h-screen bg-backgroundBlue ${
+      className={`w-screen h-screen bg-backgroundBlue  ${
         windowsBG && 'bg-[url(/images/windows_background.jpg)]'
       }`}
     >
@@ -202,6 +211,7 @@ export default function App() {
             maxWindowState={maxWindow}
             onMouseDown={handleMouseDown}
             isDragging={isDragging}
+            isDisplayWindow={displayWindow}
           />
           <AddTask
             displayWindowState={displayWindow}
@@ -210,22 +220,27 @@ export default function App() {
           />
           <Tasks displayWindowState={displayWindow} />
         </div>
-        <div
-          onMouseDown={handleMouseDownResize}
-          className="absolute w-5 h-5 bg-transparent -bottom-1.5 -right-1.5 cursor-se-resize"
-        ></div>
+        {!maxWindow && (
+          <div
+            onMouseDown={handleMouseDownResize}
+            className="absolute w-5 h-5 bg-transparent -bottom-1.5 -right-1.5 cursor-se-resize"
+          ></div>
+        )}
       </div>
-      <div className="absolute right-0 z-0">
-        <button
-          onClick={() => setWindowsBG(!windowsBG)}
-          className="flex items-center justify-center p-3"
-        >
-          <FontAwesomeIcon
-            icon={faWindows}
-            className="text-3xl pointer-events-none"
-          />
-        </button>
-      </div>
+      {isLargeScreen && !maxWindow && (
+        <div className="absolute z-0 right-3 ">
+          <button
+            onClick={() => setWindowsBG(!windowsBG)}
+            className="flex items-center justify-center p-2"
+          >
+            <FontAwesomeIcon
+              icon={faWindows}
+              className="text-3xl pointer-events-none"
+            />
+          </button>
+        </div>
+      )}
+
       <div
         className={`absolute z-0 items-center justify-center left-1/2 -translate-x-1/2 top-4 gap-2 flex`}
       >
@@ -237,27 +252,34 @@ export default function App() {
           Feel free to move the window around, minimise/maximise, or resize the
           window from the bottom-right
         </p>
-        {displayInstructions ? (
-          <button
-            onClick={() => setDisplayInstructions(false)}
-            className="relative z-20"
-          >
-            <FontAwesomeIcon icon={faXmark} className="text-gray-500" />
-          </button>
-        ) : (
-          <button
-            onClick={() => setDisplayInstructions(true)}
-            className="relative z-20"
-          >
-            <FontAwesomeIcon icon={faInfo} className="text-gray-500" />
-          </button>
-        )}
+        {isLargeScreen &&
+          (displayInstructions ? (
+            <button
+              onClick={() => setDisplayInstructions(false)}
+              className="relative z-0 "
+            >
+              <FontAwesomeIcon
+                icon={faXmark}
+                className="text-gray-500 hover:text-black"
+              />
+            </button>
+          ) : (
+            <button
+              onClick={() => setDisplayInstructions(true)}
+              className="relative z-0"
+            >
+              <FontAwesomeIcon
+                icon={faInfo}
+                className="text-gray-500 hover:text-black"
+              />
+            </button>
+          ))}
       </div>
       <div className="absolute z-0 w-full bottom-1">
-        <section className="flex items-center justify-center gap-2">
+        {/* <section className="flex items-center justify-center gap-2">
           <FontAwesomeIcon icon={faCopyright} />
           <p>2025 Henry Tran</p>
-        </section>
+        </section> */}
         <section className="flex items-center justify-center gap-2">
           <p>
             Check out the{' '}

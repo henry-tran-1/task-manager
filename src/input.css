@@ -3,3 +3,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-backgroundBlue;
+  }
+
+  html {
+    @apply overflow-hidden;
+  }
+}
