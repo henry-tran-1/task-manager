@@ -3,6 +3,7 @@ import connection from './connection.ts'
 
 const isProduction = process.env.NODE_ENV === 'production'
 
+// to account for "sleeping" DB on Railway
 async function withRetry<T>(
   operation: () => Promise<T>,
   maxRetries = 5

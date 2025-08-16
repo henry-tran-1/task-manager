@@ -5,7 +5,7 @@ Welcome to my task-manager's README. This is a simple CRUD app to keep track of 
 ## Features
 - Allows users to create, read, update, and delete tasks
 - Displays tasks in different priority tabs
-- Uses optimistic updates for instant task completion toggling
+- Uses optimistic updates for all CRUD operations
 - Task window can be moved, resized, maximized, and closed
 
 ## Installation
