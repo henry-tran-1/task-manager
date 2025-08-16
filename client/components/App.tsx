@@ -6,7 +6,8 @@ import AddTask from './AddTask.tsx'
 import Tasks from './Tasks.tsx'
 import TitleBar from './TitleBar.tsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCopyright } from '@fortawesome/free-solid-svg-icons'
+import { faCopyright, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
 export default function App() {
   // state to track if large screen (vs mobile screen)
   const [isLargeScreen, setIsLargeScreen] = useState(false)
@@ -30,6 +31,8 @@ export default function App() {
   const [initialSize, setInitialSize] = useState({ width: 700, height: 600 })
   // state to track initial mouse position for resizing
   const [startMouseResize, setStartMouseResize] = useState({ x: 0, y: 0 })
+  // state to show/hide instructions
+  const [displayInstructions, setDisplayInstructions] = useState(true)
 
   // tracks screen size and updates isLargeScreen
   useEffect(() => {
@@ -175,7 +178,7 @@ export default function App() {
   return (
     <main
       onClick={() => toggleDisplayForm(false)}
-      className="fixed w-screen h-screen bg-backgroundBlue font-body"
+      className="w-screen h-screen bg-backgroundBlue"
     >
       <div
         style={{
@@ -205,12 +208,40 @@ export default function App() {
         </div>
         <div
           onMouseDown={handleMouseDownResize}
-          className="absolute w-4 h-4 bg-transparent -bottom-1 -right-1 cursor-se-resize"
+          className="absolute w-5 h-5 bg-transparent -bottom-1.5 -right-1.5 cursor-se-resize"
         ></div>
       </div>
-      <div className="absolute z-0 flex items-center justify-center w-full gap-2 bottom-2">
-        <FontAwesomeIcon icon={faCopyright} />
-        <p>2025 Henry Tran</p>
+      <div
+        className={`absolute z-0 items-center justify-center w-full top-4 gap-2 ${
+          isLargeScreen && displayInstructions ? 'flex' : 'hidden'
+        }`}
+      >
+        <p className="text-gray-500">
+          Feel free to move the window around, minimise/maximise, or resize the
+          window from the bottom-right
+        </p>
+        <button onClick={() => setDisplayInstructions(false)}>
+          <FontAwesomeIcon icon={faXmark} className="text-gray-500" />
+        </button>
+      </div>
+      <div className="absolute z-0 w-full bottom-1">
+        <section className="flex items-center justify-center gap-2">
+          <FontAwesomeIcon icon={faCopyright} />
+          <p>2025 Henry Tran</p>
+        </section>
+        <section className="flex items-center justify-center gap-2">
+          <p>
+            Check out the{' '}
+            <a
+              href="https://github.com/henry-tran-1/task-manager"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+            >
+              <FontAwesomeIcon icon={faGithub} /> repo here
+            </a>
+          </p>
+        </section>
       </div>
     </main>
   )
