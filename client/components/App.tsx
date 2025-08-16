@@ -6,8 +6,8 @@ import AddTask from './AddTask.tsx'
 import Tasks from './Tasks.tsx'
 import TitleBar from './TitleBar.tsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCopyright, faXmark } from '@fortawesome/free-solid-svg-icons'
-import { faGithub } from '@fortawesome/free-brands-svg-icons'
+import { faCopyright, faXmark, faInfo } from '@fortawesome/free-solid-svg-icons'
+import { faGithub, faWindows } from '@fortawesome/free-brands-svg-icons'
 export default function App() {
   // state to track if large screen (vs mobile screen)
   const [isLargeScreen, setIsLargeScreen] = useState(false)
@@ -33,6 +33,8 @@ export default function App() {
   const [startMouseResize, setStartMouseResize] = useState({ x: 0, y: 0 })
   // state to show/hide instructions
   const [displayInstructions, setDisplayInstructions] = useState(true)
+  //   state to set windows background
+  const [windowsBG, setWindowsBG] = useState(false)
 
   // tracks screen size and updates isLargeScreen
   useEffect(() => {
@@ -178,7 +180,9 @@ export default function App() {
   return (
     <main
       onClick={() => toggleDisplayForm(false)}
-      className="w-screen h-screen bg-backgroundBlue"
+      className={`w-screen h-screen bg-backgroundBlue ${
+        windowsBG && 'bg-[url(/images/windows_background.jpg)]'
+      }`}
     >
       <div
         style={{
@@ -211,18 +215,43 @@ export default function App() {
           className="absolute w-5 h-5 bg-transparent -bottom-1.5 -right-1.5 cursor-se-resize"
         ></div>
       </div>
+      <div className="absolute right-0 z-0">
+        <button
+          onClick={() => setWindowsBG(!windowsBG)}
+          className="flex items-center justify-center p-3"
+        >
+          <FontAwesomeIcon
+            icon={faWindows}
+            className="text-3xl pointer-events-none"
+          />
+        </button>
+      </div>
       <div
-        className={`absolute z-0 items-center justify-center w-full top-4 gap-2 ${
-          isLargeScreen && displayInstructions ? 'flex' : 'hidden'
-        }`}
+        className={`absolute z-0 items-center justify-center left-1/2 -translate-x-1/2 top-4 gap-2 flex`}
       >
-        <p className="text-gray-500">
+        <p
+          className={`text-gray-500 ${
+            isLargeScreen && displayInstructions ? 'visible' : 'invisible'
+          }`}
+        >
           Feel free to move the window around, minimise/maximise, or resize the
           window from the bottom-right
         </p>
-        <button onClick={() => setDisplayInstructions(false)}>
-          <FontAwesomeIcon icon={faXmark} className="text-gray-500" />
-        </button>
+        {displayInstructions ? (
+          <button
+            onClick={() => setDisplayInstructions(false)}
+            className="relative z-20"
+          >
+            <FontAwesomeIcon icon={faXmark} className="text-gray-500" />
+          </button>
+        ) : (
+          <button
+            onClick={() => setDisplayInstructions(true)}
+            className="relative z-20"
+          >
+            <FontAwesomeIcon icon={faInfo} className="text-gray-500" />
+          </button>
+        )}
       </div>
       <div className="absolute z-0 w-full bottom-1">
         <section className="flex items-center justify-center gap-2">
